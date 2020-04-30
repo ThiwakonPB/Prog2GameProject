@@ -3,21 +3,29 @@ package com.prog2game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.sun.java.swing.action.ExitAction;
 import org.w3c.dom.Text;
 
 public class MainScreen implements Screen   {
-
+    private SpriteBatch batch;
+    private Texture texture;
     private MyGdxGame parent;
     private Stage stage;
 
     public MainScreen(MyGdxGame myGdxGame) {
+        batch = new SpriteBatch();
+        texture = new Texture(Gdx.files.internal("mainbackground.png"));
         parent = myGdxGame;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -26,24 +34,33 @@ public class MainScreen implements Screen   {
 
 
     //This method will create a pop up
-    public static class ExitDialog extends Dialog {
+    public static class Attacked extends Dialog {
 
-        public ExitDialog(String title, Skin skin) {
+        public Attacked(String title, Skin skin) {
             super(title, skin);
         }
 
-        public ExitDialog(String title, Skin skin, String windowStyleName) {
+        public Attacked(String title, Skin skin, String windowStyleName) {
             super(title, skin, windowStyleName);
         }
 
-        public ExitDialog(String title, WindowStyle windowStyle) {
+        public Attacked(String title, WindowStyle windowStyle) {
             super(title, windowStyle);
         }
         /// Code under here will executed no matter which method used from above
         {
-            text("Attack");
+            text("What will you attack with?");
+            button("Sword",true);
+            button("Blizzard",true);
+            button("Fireball",true);
+            button("Lighting",true);
+            button("Back",true);
+
         }
     }
+
+
+
 
 
     @Override
@@ -55,17 +72,26 @@ public class MainScreen implements Screen   {
         table.left();
         stage.addActor(table);
         Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
-        ExitDialog exitDialog = new ExitDialog("",skin);
+        final Attacked atk = new Attacked("",skin);
 
-        exitDialog.show(stage);
+        //create buttons
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
         TextButton items = new TextButton("Items",skin);
+
+        attack.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                atk.show(stage);
+            }
+        });
 
         table.add(attack).fillX().uniformX();
         table.row().pad(10,0,10,0);
         table.add(skills).fillX().uniformX();
         table.add(items).left().fillX().uniformX();
+
+
 
     }
 
@@ -74,6 +100,11 @@ public class MainScreen implements Screen   {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        //start of drawing
+        stage.getBatch().begin();
+        stage.getBatch().draw(texture,0,0,650,500);
+        stage.getBatch().end();
+        //end
         stage.draw();
     }
 
