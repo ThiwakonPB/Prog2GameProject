@@ -9,13 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.sun.java.swing.action.ExitAction;
-import org.w3c.dom.Text;
 
 public class FightScreen implements Screen   {
 
     private MyGdxGame parent;
-    private Stage stage;
+    private final Stage stage;
 
     public FightScreen(MyGdxGame myGdxGame) {
         parent = myGdxGame;
