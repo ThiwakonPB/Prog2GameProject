@@ -5,25 +5,24 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.graalvm.compiler.phases.common.NodeCounterPhase;
-
-import java.awt.*;
 
 public class Opening implements Screen {
 
+    //-Properties:
+    // Are these properties needed? They're never used in this class
     private Stage stage;
     private SpriteBatch batch;
     private Texture texture;
     private MyGdxGame parent;
 
-    public Opening (MyGdxGame myGdxGame) {
+    //-Constructors:
+    public Opening(MyGdxGame myGdxGame) {
         parent = myGdxGame;
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("logo2.png"));
     }
 
-
+    //-Methods:
     @Override
     public void show() {
 

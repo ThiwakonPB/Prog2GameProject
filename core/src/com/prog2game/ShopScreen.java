@@ -3,6 +3,10 @@ package com.prog2game;
 import com.badlogic.gdx.Screen;
 
 public class ShopScreen implements Screen {
+
+    //-Properties:
+
+    //-Methods:
     @Override
     public void show() {
 

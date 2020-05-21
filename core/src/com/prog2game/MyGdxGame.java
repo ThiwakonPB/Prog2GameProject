@@ -5,19 +5,22 @@ import com.badlogic.gdx.Gdx;
 
 public class MyGdxGame extends Game {
 
-	private LoadingScreen loadingScreen;
-	private PreferencesScreen preferencesScreen;
-	private MenuScreen menuScreen;
-	private FightScreen fightScreen;
-	private EndScreen endScreen;
-	private Opening openingScreen;
-	///const variables
+	///-Constants:
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
 	public final static int OPENING = 4;
 
+	//-Properties:
+	private LoadingScreen loadingScreen;
+	private PreferencesScreen preferencesScreen;
+	private MenuScreen menuScreen;
+	private FightScreen fightScreen;
+	private EndScreen endScreen;
+	private Opening openingScreen;
+
+	//-Methods:
 	@Override
 	public void create () {
 		loadingScreen = new LoadingScreen(this);
@@ -25,9 +28,10 @@ public class MyGdxGame extends Game {
 
 	}
 
-     ///method used to switch screens(classes).
+     // Method used to switch between screen objects
 	public void changeScreen (int screen) {
 		switch(screen){
+
 			case MENU:
 				if(menuScreen == null) menuScreen = new MenuScreen(this);
 				this.setScreen(menuScreen);
