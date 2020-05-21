@@ -3,6 +3,8 @@ package com.prog2game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -19,8 +21,6 @@ public class FightScreen implements Screen   {
     private Texture healthbar;
     private Texture health;
     private Texture black_bar;
-    private MyGdxGame parent;
-    private Stage stage;
     private float hp_len = 0;
 
     //characters
