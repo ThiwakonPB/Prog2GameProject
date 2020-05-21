@@ -4,7 +4,7 @@ import com.badlogic.gdx.Screen;
 
 public class LoadingScreen implements Screen {
 
-    private MyGdxGame parent;
+    private final MyGdxGame parent;
 
 
     public LoadingScreen(MyGdxGame myGdxGame) {

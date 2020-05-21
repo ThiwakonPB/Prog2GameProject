@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class FightScreen implements Screen   {
 
-    private MyGdxGame parent;
+    private final MyGdxGame parent;
     private final Stage stage;
 
     public FightScreen(MyGdxGame myGdxGame) {
