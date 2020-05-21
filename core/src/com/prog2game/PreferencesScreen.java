@@ -4,16 +4,15 @@ import com.badlogic.gdx.Screen;
 
 public class PreferencesScreen implements Screen {
 
-
+    //-Properties:
     private MyGdxGame parent;
 
+    //-Constructors:
     public PreferencesScreen(MyGdxGame myGdxGame) {
         parent = myGdxGame;
     }
 
-
-
-
+    //-Methods:
     @Override
     public void show() {
 

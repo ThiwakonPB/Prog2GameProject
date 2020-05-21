@@ -1,12 +1,12 @@
 package com.prog2game;
 
 public class Player_ex {
+
     private float hp;
 
     public Player_ex () {
         this.hp = 100;
     }
-
 
     public float getHp() {
         return hp;
@@ -15,4 +15,5 @@ public class Player_ex {
     public void setHp(float hp) {
         this.hp = hp;
     }
+
 }

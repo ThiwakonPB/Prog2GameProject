@@ -18,6 +18,8 @@ import java.awt.*;
 
 public class Opening implements Screen {
 
+    //-Properties:
+    // Are these properties needed? They're never used in this class
     private Stage stage;
     private SpriteBatch batch;
     private Texture texture;
@@ -31,7 +33,7 @@ public class Opening implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-
+    //-Methods:
     @Override
     public void show() {
 
