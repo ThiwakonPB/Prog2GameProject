@@ -128,11 +128,6 @@ public class MainScreen implements Screen   {
 
         hp_len = MyGdxGame.scroll(hp_len,player.getHp()*5 - 34,300);
 
-
-//        if (hp_len < player.getHp()*5) {
-//            float delta_1 = Gdx.graphics.getDeltaTime();
-//            hp_len  += delta_1 * 50;
-//        }
     }
 
     @Override
