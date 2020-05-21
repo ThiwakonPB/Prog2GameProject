@@ -20,16 +20,25 @@ public class MenuScreen implements Screen {
     // Properties:
     private SpriteBatch batch;
     private Texture texture;
+    private Texture castle_background;
     private MyGdxGame parent;
     private Stage stage;
+    private float t_posY;
+    private float b_posY = -400;
+    private float alp = 0.3f;
+
+
     public MenuScreen(MyGdxGame myGdxGame) {
      parent = myGdxGame;
      batch = new SpriteBatch();
      texture = new Texture(Gdx.files.internal("logo2.png"));
+     castle_background = new Texture(Gdx.files.internal("castle_2.png"));
      stage = new Stage(new ScreenViewport());
-       Gdx.input.setInputProcessor(stage);
+     Gdx.input.setInputProcessor(stage);
 
      }
+
+
 
  @Override
     public void show() {
@@ -43,7 +52,6 @@ public class MenuScreen implements Screen {
       TextButton newGame = new TextButton("Start", skin);
       TextButton preferences = new TextButton("Settings", skin);
       TextButton exit = new TextButton("Exit", skin);
-
 
       newGame.addListener(new ChangeListener() {
           @Override
@@ -60,6 +68,7 @@ public class MenuScreen implements Screen {
              Gdx.app.exit();
          }
      });
+
         ///Tables used to align,adjust ect. buttons like excel
       table.bottom();
       table.add(newGame).fillX().uniformX();
@@ -67,21 +76,27 @@ public class MenuScreen implements Screen {
       table.add(preferences).fillX().uniformX();
       table.row();
       table.add(exit).fillX().uniformX();
+
     }
+
 
     @Override
     public void render(float delta) {
-
-
-
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.getBatch().begin();
-        stage.getBatch().draw(texture,150,300);
+
+        stage.getBatch().draw(castle_background,-280,b_posY,1200,1200);
+        stage.getBatch().draw(texture,150,t_posY);
+
         stage.getBatch().end();
+
         stage.draw();
+        t_posY = MyGdxGame.scroll(t_posY,300,100);
+        b_posY = MyGdxGame.scroll(b_posY,-250,50);
+
     }
 
     @Override

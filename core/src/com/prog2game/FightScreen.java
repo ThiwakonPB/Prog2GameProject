@@ -14,8 +14,24 @@ public class FightScreen implements Screen   {
 
     private final MyGdxGame parent;
     private final Stage stage;
+    private SpriteBatch batch;
+    private Texture texture;
+    private Texture healthbar;
+    private Texture health;
+    private Texture black_bar;
+    private MyGdxGame parent;
+    private Stage stage;
+    private float hp_len = 0;
+
+    //characters
+    private Player_ex player = new Player_ex();
 
     public FightScreen(MyGdxGame myGdxGame) {
+        batch = new SpriteBatch();
+        texture = new Texture(Gdx.files.internal("mainbackground.png"));
+        healthbar = new Texture(Gdx.files.internal("health_back.png"));
+        health = new Texture(Gdx.files.internal("health.png"));
+        black_bar = new Texture(Gdx.files.internal("black.png"));
         parent = myGdxGame;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

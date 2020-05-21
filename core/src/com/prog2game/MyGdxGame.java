@@ -9,12 +9,13 @@ public class MyGdxGame extends Game {
 	private MenuScreen menuScreen;
 	private FightScreen fightScreen;
 	private EndScreen endScreen;
-
+	private Opening openingScreen;
 	///const variables
 	public final static int MENU = 0;
 	public final static int PREFERENCES = 1;
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
+	public final static int OPENING = 4;
 
 	@Override
 	public void create () {
@@ -42,7 +43,25 @@ public class MyGdxGame extends Game {
 				if(endScreen == null) endScreen = new EndScreen(this);
 				this.setScreen(endScreen);
 				break;
+			case OPENING:
+				if( openingScreen== null) openingScreen = new Opening(this);
+				this.setScreen(openingScreen);
+				break;
 
 		}
 	}
+
+	/// Will in/decrease a position x or y till determine pos
+	public static float scroll (float pos,float destination,float speed){
+
+		float delta_1 = Gdx.graphics.getDeltaTime();
+		if (pos < destination){
+			pos += delta_1 * speed;
+		}
+		else if (pos > destination + 1){
+			pos -= delta_1 * speed;
+		}
+		return pos;
+	}
+
 }
