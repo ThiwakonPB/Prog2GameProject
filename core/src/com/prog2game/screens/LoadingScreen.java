@@ -1,4 +1,4 @@
-package com.prog2game.views;
+package com.prog2game.screens;
 
 import com.badlogic.gdx.Screen;
 

@@ -1,4 +1,4 @@
-package com.prog2game;
+package com.prog2game.handlers;
 
 public class AudioHandler {
 
