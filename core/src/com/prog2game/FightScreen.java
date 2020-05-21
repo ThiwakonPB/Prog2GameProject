@@ -5,11 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class FightScreen implements Screen   {
@@ -40,22 +42,28 @@ public class FightScreen implements Screen   {
 
 
     //This method will create a pop up
-    public static class ExitDialog extends Dialog {
+    public static class Attacked extends Dialog {
 
-        public ExitDialog(String title, Skin skin) {
+        public Attacked(String title, Skin skin) {
             super(title, skin);
         }
 
-        public ExitDialog(String title, Skin skin, String windowStyleName) {
+        public Attacked(String title, Skin skin, String windowStyleName) {
             super(title, skin, windowStyleName);
         }
 
-        public ExitDialog(String title, WindowStyle windowStyle) {
+        public Attacked(String title, WindowStyle windowStyle) {
             super(title, windowStyle);
         }
         /// Code under here will executed no matter which method used from above
         {
-            text("Attack");
+            text("What will you attack with?");
+            button("Sword",true);
+            button("Blizzard",true);
+            button("Fireball",true);
+            button("Lighting",true);
+            button("Back",true);
+
         }
     }
 
@@ -69,13 +77,25 @@ public class FightScreen implements Screen   {
         table.left();
         stage.addActor(table);
         Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
-        ExitDialog exitDialog = new ExitDialog("",skin);
 
-        exitDialog.show(stage);
+
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
-        TextButton items = new TextButton("Items",skin);
+        TextButton items = new TextButton("Hurt self",skin);
+        final Attacked atk = new Attacked("",skin);
+        items.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                player.setHp(player.getHp()-10);
+            }
+        });
 
+        attack.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                atk.show(stage);
+            }
+        });
         table.add(attack).fillX().uniformX();
         table.row().pad(10,0,10,0);
         table.add(skills).fillX().uniformX();
@@ -89,6 +109,18 @@ public class FightScreen implements Screen   {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        stage.getBatch().begin();
+        stage.getBatch().draw(texture,0,0,650,500);
+        stage.getBatch().draw(healthbar,110,90,600,80);
+        stage.getBatch().draw(health,155,124,hp_len,20);
+
+        stage.getBatch().end();
+        //end
+        stage.draw();
+
+        hp_len = MyGdxGame.scroll(hp_len,player.getHp()*5 - 34,300);
+
+
     }
 
     @Override
