@@ -25,6 +25,9 @@ public class MenuScreen implements Screen {
     private Stage stage;
     private float t_posY;
     private float b_posY = -400;
+    private float alp = 0.3f;
+
+
     public MenuScreen(MyGdxGame myGdxGame) {
      parent = myGdxGame;
      batch = new SpriteBatch();
@@ -34,6 +37,8 @@ public class MenuScreen implements Screen {
      Gdx.input.setInputProcessor(stage);
 
      }
+
+
 
  @Override
     public void show() {
@@ -47,7 +52,6 @@ public class MenuScreen implements Screen {
       TextButton newGame = new TextButton("Start", skin);
       TextButton preferences = new TextButton("Settings", skin);
       TextButton exit = new TextButton("Exit", skin);
-
 
       newGame.addListener(new ChangeListener() {
           @Override
@@ -64,6 +68,7 @@ public class MenuScreen implements Screen {
              Gdx.app.exit();
          }
      });
+
         ///Tables used to align,adjust ect. buttons like excel
       table.bottom();
       table.add(newGame).fillX().uniformX();
@@ -71,21 +76,9 @@ public class MenuScreen implements Screen {
       table.add(preferences).fillX().uniformX();
       table.row();
       table.add(exit).fillX().uniformX();
+
     }
 
-
-    /// Will in/decrease a position x or y till determind pos
-    private float scroll (float pos,float destination,float speed){
-
-        float delta_1 = Gdx.graphics.getDeltaTime();
-        if (pos < destination){
-            pos += delta_1 * speed;
-        }
-        else if (pos > destination + 1){
-            pos -= delta_1 * speed;
-        }
-        return pos;
-    }
 
     @Override
     public void render(float delta) {
@@ -94,13 +87,16 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.getBatch().begin();
+
         stage.getBatch().draw(castle_background,-280,b_posY,1200,1200);
         stage.getBatch().draw(texture,150,t_posY);
-        stage.getBatch().end();
-        stage.draw();
 
-        t_posY = scroll(t_posY,300,100);
-        b_posY = scroll(b_posY,-250,50);
+        stage.getBatch().end();
+
+        stage.draw();
+        t_posY = MyGdxGame.scroll(t_posY,300,100);
+        b_posY = MyGdxGame.scroll(b_posY,-250,50);
+
     }
 
     @Override

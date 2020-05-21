@@ -20,12 +20,22 @@ import org.w3c.dom.Text;
 public class MainScreen implements Screen   {
     private SpriteBatch batch;
     private Texture texture;
+    private Texture healthbar;
+    private Texture health;
+    private Texture black_bar;
     private MyGdxGame parent;
     private Stage stage;
+    private float hp_len = 0;
+    //characters
+    private Player_ex player = new Player_ex();
+
 
     public MainScreen(MyGdxGame myGdxGame) {
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("mainbackground.png"));
+        healthbar = new Texture(Gdx.files.internal("health_back.png"));
+        health = new Texture(Gdx.files.internal("health.png"));
+        black_bar = new Texture(Gdx.files.internal("black.png"));
         parent = myGdxGame;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -77,12 +87,18 @@ public class MainScreen implements Screen   {
         //create buttons
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
-        TextButton items = new TextButton("Items",skin);
+        TextButton items = new TextButton("Hurt self",skin);
 
         attack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 atk.show(stage);
+            }
+        });
+        items.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                player.setHp(player.getHp()-10);
             }
         });
 
@@ -103,9 +119,20 @@ public class MainScreen implements Screen   {
         //start of drawing
         stage.getBatch().begin();
         stage.getBatch().draw(texture,0,0,650,500);
+        stage.getBatch().draw(healthbar,110,90,600,80);
+        stage.getBatch().draw(health,155,124,hp_len,20);
+
         stage.getBatch().end();
         //end
         stage.draw();
+
+        hp_len = MyGdxGame.scroll(hp_len,player.getHp()*5 - 34,300);
+
+
+//        if (hp_len < player.getHp()*5) {
+//            float delta_1 = Gdx.graphics.getDeltaTime();
+//            hp_len  += delta_1 * 50;
+//        }
     }
 
     @Override

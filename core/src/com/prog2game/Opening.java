@@ -3,6 +3,7 @@ package com.prog2game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.graalvm.compiler.phases.common.NodeCounterPhase;
@@ -12,10 +13,14 @@ import java.awt.*;
 public class Opening implements Screen {
 
     private Stage stage;
+    private SpriteBatch batch;
+    private Texture texture;
+    private MyGdxGame parent;
 
-    public Opening () {
-//        textimg = new Texture(Gdx.files.internal("assets/badlogic.jpg"));
-
+    public Opening (MyGdxGame myGdxGame) {
+        parent = myGdxGame;
+        batch = new SpriteBatch();
+        texture = new Texture(Gdx.files.internal("logo2.png"));
     }
 
 
