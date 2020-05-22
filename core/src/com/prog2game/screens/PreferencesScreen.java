@@ -1,10 +1,17 @@
-package com.prog2game;
+package com.prog2game.screens;
 
 import com.badlogic.gdx.Screen;
+import com.prog2game.MyGdxGame;
 
-public class ShopScreen implements Screen {
+public class PreferencesScreen implements Screen {
 
     //-Properties:
+    private MyGdxGame parent;
+
+    //-Constructors:
+    public PreferencesScreen(MyGdxGame myGdxGame) {
+        parent = myGdxGame;
+    }
 
     //-Methods:
     @Override

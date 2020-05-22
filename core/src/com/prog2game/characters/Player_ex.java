@@ -1,4 +1,4 @@
-package com.prog2game;
+package com.prog2game.characters;
 
 public class Player_ex {
 

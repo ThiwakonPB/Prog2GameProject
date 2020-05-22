@@ -1,4 +1,4 @@
-package com.prog2game;
+package com.prog2game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.prog2game.MyGdxGame;
+import com.prog2game.characters.Player_ex;
 
 public class FightScreen implements Screen   {
 
