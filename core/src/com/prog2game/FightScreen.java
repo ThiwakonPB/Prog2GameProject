@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,21 +24,42 @@ public class FightScreen implements Screen   {
     private Texture healthbar;
     private Texture health;
     private Texture black_bar;
+    private Texture enemy;
     private float hp_len = 0;
+    private float hover = 200;
+    private float freq ;
+    private BitmapFont font;
+    private String current_text = "yes";
+
 
     //characters
     private Player_ex player = new Player_ex();
 
     public FightScreen(MyGdxGame myGdxGame) {
         batch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("mainbackground.png"));
+        texture = new Texture(Gdx.files.internal("cave.png"));
         healthbar = new Texture(Gdx.files.internal("health_back.png"));
         health = new Texture(Gdx.files.internal("health.png"));
         black_bar = new Texture(Gdx.files.internal("black.png"));
+        enemy = new Texture(Gdx.files.internal("download.png"));
         parent = myGdxGame;
         stage = new Stage(new ScreenViewport());
+        font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
 
+    }
+
+
+    public float Hover (float current_pos, float bob,float intensity) {
+
+            if (current_pos < bob) {
+                    current_pos +=  intensity;
+            }
+
+            else if (current_pos >= bob) {
+                current_pos -= intensity;
+            }
+            return current_pos;
     }
 
 
@@ -58,7 +80,7 @@ public class FightScreen implements Screen   {
         /// Code under here will executed no matter which method used from above
         {
             text("What will you attack with?");
-            button("Sword",true);
+            button("Sword","Attacked with a sword");
             button("Blizzard",true);
             button("Fireball",true);
             button("Lighting",true);
@@ -72,7 +94,7 @@ public class FightScreen implements Screen   {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.setDebug(false);
         table.bottom();
         table.left();
         stage.addActor(table);
@@ -82,7 +104,14 @@ public class FightScreen implements Screen   {
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
         TextButton items = new TextButton("Hurt self",skin);
-        final Attacked atk = new Attacked("",skin);
+        final Attacked atk = new Attacked("",skin) {
+
+            public void result(Object obj) {
+                // Takes the results from Attacked dialog function above as a input in here.
+                current_text = obj.toString();
+            }
+
+        };
         items.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -94,6 +123,7 @@ public class FightScreen implements Screen   {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 atk.show(stage);
+
             }
         });
         table.add(attack).fillX().uniformX();
@@ -112,14 +142,25 @@ public class FightScreen implements Screen   {
         stage.getBatch().begin();
         stage.getBatch().draw(texture,0,0,650,500);
         stage.getBatch().draw(healthbar,110,90,600,80);
+        stage.getBatch().draw(enemy,250,hover,200,200);
         stage.getBatch().draw(health,155,124,hp_len,20);
-
         stage.getBatch().end();
+
+        if (freq <= 0){
+            hover = Hover(hover,200,20);
+            freq = 1f;
+        }
+
+        batch.begin();
+        // Put anything text related you want to render here
+        font.draw(batch, current_text, 300, 100);
+        batch.end();
         //end
         stage.draw();
 
-        hp_len = MyGdxGame.scroll(hp_len,player.getHp()*5 - 34,300);
 
+        hp_len = MyGdxGame.scroll(hp_len,player.getHp()*5 - 34,300);
+        freq -= Gdx.graphics.getDeltaTime();
 
     }
 
