@@ -31,7 +31,7 @@ public class MenuScreen implements Screen {
         texture = new Texture(Gdx.files.internal("logo2.png"));
         castle_background = new Texture(Gdx.files.internal("castle_2.png"));
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+
 
     }
 
@@ -47,7 +47,7 @@ public class MenuScreen implements Screen {
         Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
 
         ///Create the button objects to use later
-      TextButton newGame = new TextButton("Start", skin);
+      final TextButton newGame = new TextButton("Start", skin);
       TextButton preferences = new TextButton("Settings", skin);
       TextButton exit = new TextButton("Exit", skin);
 
@@ -80,7 +80,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -118,6 +118,7 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+
     }
 
 }

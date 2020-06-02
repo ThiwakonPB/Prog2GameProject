@@ -19,12 +19,14 @@ public class FightScreen implements Screen   {
 
     private final MyGdxGame parent;
     private final Stage stage;
+    //texture
     private SpriteBatch batch;
     private Texture texture;
     private Texture healthbar;
     private Texture health;
     private Texture black_bar;
     private Texture enemy;
+    private Texture mana;
 
 
     //var
@@ -56,6 +58,7 @@ public class FightScreen implements Screen   {
     public FightScreen(MyGdxGame myGdxGame) {
         enemy1.rand_enemy(level);
         batch = new SpriteBatch();
+        mana = new Texture(Gdx.files.internal("mana.png"));
         texture = new Texture(Gdx.files.internal("cave.png"));
         healthbar = new Texture(Gdx.files.internal("health_back.png"));
         health = new Texture(Gdx.files.internal("health.png"));
@@ -65,7 +68,7 @@ public class FightScreen implements Screen   {
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
         font2 = new BitmapFont();
-        Gdx.input.setInputProcessor(stage);
+
 
 
 
@@ -178,7 +181,7 @@ public class FightScreen implements Screen   {
         items.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                player.setHp(player.getHp()-10);
+                parent.changeScreen(MyGdxGame.MENU);
             }
         });
 
@@ -198,6 +201,7 @@ public class FightScreen implements Screen   {
 
     @Override
     public void render(float delta) {
+        Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -208,6 +212,8 @@ public class FightScreen implements Screen   {
         //player healthbar
         stage.getBatch().draw(healthbar,110,90,600,80);
         stage.getBatch().draw(health,155,124,hp_len,20);
+        stage.getBatch().draw(healthbar,110,60,600,80);
+        stage.getBatch().draw(mana,155,95,hp_len,20);
 
         //enemy sprite and healthbar
         stage.getBatch().draw(enemy,250,hover,200,200);
@@ -295,6 +301,6 @@ public class FightScreen implements Screen   {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

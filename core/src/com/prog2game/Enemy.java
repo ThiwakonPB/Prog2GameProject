@@ -61,10 +61,6 @@ public class Enemy extends Character {
 
 
 
-
-
-
-
     public String getTexture() {
         return texture;
     }
