@@ -1,5 +1,7 @@
 package com.prog2game;
 
+import java.util.Random;
+
 abstract class Character {
 
 
@@ -30,9 +32,11 @@ abstract class Character {
     }
 
     //simple attack function with a multiplier
-    public void attack (Character chr){
-        chr.setHp(chr.getHp() - (this.atk * multiplier_checker(chr)));
-
+    public float attack (Character chr){
+        Random r = new Random();
+        float random = (float) ((this.atk*0.8) + r.nextFloat() * ((this.atk/0.8) - (this.atk*0.8)));
+        chr.setHp(chr.getHp() - (random * multiplier_checker(chr)));
+        return  (random * multiplier_checker(chr));
     }
 
     // this function will compare types and atk/def differences to determine a multiplier for dmg

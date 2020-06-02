@@ -26,35 +26,58 @@ public class FightScreen implements Screen   {
     private Texture black_bar;
     private Texture enemy;
 
+
+    //var
     private float ene_hp_len = 0;
     private float hp_len = 0;
     private float hover = 200;
     private float freq ;
+    private float freq2;
+    private float dmg;
+    private float total_dmg;
+    private int level = 5;
+    float y = 300;
+    float sx = 1;
+    float sy =1;
+    int draw_dmg = 0;
+    float num2 = 0;
+    boolean enemy_turn = false;
 
+    //fonts
     private BitmapFont font;
+    private BitmapFont font2;
     private String current_text = "yes";
 
 
     //characters
     private Player_ex player = new Player_ex();
     private Enemy enemy1 = new Enemy();
+
     public FightScreen(MyGdxGame myGdxGame) {
-        enemy1.rand_enemy(10);
+        enemy1.rand_enemy(level);
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("cave.png"));
         healthbar = new Texture(Gdx.files.internal("health_back.png"));
         health = new Texture(Gdx.files.internal("health.png"));
         black_bar = new Texture(Gdx.files.internal("black.png"));
-        enemy = new Texture(Gdx.files.internal("download.png"));
+        enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
         parent = myGdxGame;
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
+        font2 = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
 
 
 
     }
 
+
+
+
+
+
+
+    //functions
 
     public float Hover (float current_pos, float bob,float intensity) {
 
@@ -67,6 +90,29 @@ public class FightScreen implements Screen   {
             }
             return current_pos;
     }
+
+    public void Enemy_spawn(){
+
+        if (enemy1.getHp() <= 0) {
+            enemy1.rand_enemy(level);
+            enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
+
+        }
+
+    }
+
+    public void Enemy_Attack (){
+
+        if (enemy_turn == true){
+            enemy1.attack(player);
+            enemy_turn = false;
+        }
+
+
+    }
+
+
+
 
 
     //This method will create a pop up
@@ -121,7 +167,12 @@ public class FightScreen implements Screen   {
         attack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                player.attack(enemy1);
+                dmg = player.attack(enemy1);
+                total_dmg += dmg;
+                freq2 = 2f;
+                current_text = "You dealt:" + dmg;
+                enemy_turn = true;
+
             }
         });
         items.addListener(new ChangeListener() {
@@ -175,20 +226,51 @@ public class FightScreen implements Screen   {
         // Put anything text related you want to render here
         font.draw(batch, current_text, 300, 100);
         font.draw(batch, enemy1.getName(), 100, 400);
+        //Damage numbers
+            if (enemy1.getHp()> 0) {
+                if (freq2 > 0 || num2 < total_dmg) {
+                    font2.setColor(0.2f, 0, 0, 1);
+                    if (y < 450 && num2 < total_dmg) {
+                        sx += 0.5 * Gdx.graphics.getDeltaTime();
+                        sy += 0.5 + Gdx.graphics.getDeltaTime();
+                        y += 20 * Gdx.graphics.getDeltaTime();
+                        font2.setColor(1, 0, 0, 1);
+                    }
+
+                    String total = Float.toString(num2);
+                    font2.getData().setScale(sx);
+                    font2.draw(batch, total, 400, y);
+                }
+                else {
+                    sx = 1;
+                    sy = 1;
+                    y = 300;
+                    total_dmg = 0;
+                    num2 = 0;
+                }
+            }
+            else {
+                sx = 1;
+                sy = 1;
+                y = 300;
+                total_dmg = 0;
+                num2 = 0;
+            }
+
         batch.end();
         //end
         stage.draw();
 
-        if (enemy1.getHp() <= 0) {
-            enemy1.rand_enemy(10);
 
-
-        }
-
+        Enemy_spawn();
+        Enemy_Attack();
         ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 300);
         hp_len = MyGdxGame.scroll(hp_len,(player.getHp()/player.getMax_hp())*470,300);
         freq -= Gdx.graphics.getDeltaTime();
-
+        freq2 -= Gdx.graphics.getDeltaTime();
+        if (num2 < total_dmg){
+            num2 += 60*Gdx.graphics.getDeltaTime();
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.prog2game;
 public class Player_ex extends Character {
 
     private int level = 0;
-    private float max_hp = 100;
+    private float max_hp = 1000;
     private float max_mp = 100;
     private float max_atk = 10;
     private float max_def = 10;
