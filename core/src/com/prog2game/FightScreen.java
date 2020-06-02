@@ -25,17 +25,21 @@ public class FightScreen implements Screen   {
     private Texture health;
     private Texture black_bar;
     private Texture enemy;
+
+    private float ene_hp_len = 0;
     private float hp_len = 0;
     private float hover = 200;
     private float freq ;
+
     private BitmapFont font;
     private String current_text = "yes";
 
 
     //characters
     private Player_ex player = new Player_ex();
-
+    private Enemy enemy1 = new Enemy();
     public FightScreen(MyGdxGame myGdxGame) {
+        enemy1.rand_enemy(10);
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("cave.png"));
         healthbar = new Texture(Gdx.files.internal("health_back.png"));
@@ -46,6 +50,8 @@ public class FightScreen implements Screen   {
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
+
+
 
     }
 
@@ -64,17 +70,17 @@ public class FightScreen implements Screen   {
 
 
     //This method will create a pop up
-    public static class Attacked extends Dialog {
+    public static class Knight extends Dialog {
 
-        public Attacked(String title, Skin skin) {
+        public Knight(String title, Skin skin) {
             super(title, skin);
         }
 
-        public Attacked(String title, Skin skin, String windowStyleName) {
+        public Knight(String title, Skin skin, String windowStyleName) {
             super(title, skin, windowStyleName);
         }
 
-        public Attacked(String title, WindowStyle windowStyle) {
+        public Knight(String title, WindowStyle windowStyle) {
             super(title, windowStyle);
         }
         /// Code under here will executed no matter which method used from above
@@ -104,7 +110,7 @@ public class FightScreen implements Screen   {
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
         TextButton items = new TextButton("Hurt self",skin);
-        final Attacked atk = new Attacked("",skin) {
+        final Knight knight = new Knight("",skin) {
 
             public void result(Object obj) {
                 // Takes the results from Attacked dialog function above as a input in here.
@@ -112,6 +118,12 @@ public class FightScreen implements Screen   {
             }
 
         };
+        attack.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                player.attack(enemy1);
+            }
+        });
         items.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -119,10 +131,10 @@ public class FightScreen implements Screen   {
             }
         });
 
-        attack.addListener(new ChangeListener() {
+        skills.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                atk.show(stage);
+                knight.show(stage);
 
             }
         });
@@ -141,9 +153,15 @@ public class FightScreen implements Screen   {
         stage.draw();
         stage.getBatch().begin();
         stage.getBatch().draw(texture,0,0,650,500);
+
+        //player healthbar
         stage.getBatch().draw(healthbar,110,90,600,80);
-        stage.getBatch().draw(enemy,250,hover,200,200);
         stage.getBatch().draw(health,155,124,hp_len,20);
+
+        //enemy sprite and healthbar
+        stage.getBatch().draw(enemy,250,hover,200,200);
+        stage.getBatch().draw(healthbar,-50,418,600,80);
+        stage.getBatch().draw(health,0,450,ene_hp_len,20);
         stage.getBatch().end();
 
         if (freq <= 0){
@@ -151,15 +169,24 @@ public class FightScreen implements Screen   {
             freq = 1f;
         }
 
+
+
         batch.begin();
         // Put anything text related you want to render here
         font.draw(batch, current_text, 300, 100);
+        font.draw(batch, enemy1.getName(), 100, 400);
         batch.end();
         //end
         stage.draw();
 
+        if (enemy1.getHp() <= 0) {
+            enemy1.rand_enemy(10);
 
-        hp_len = MyGdxGame.scroll(hp_len,player.getHp()*5 - 34,300);
+
+        }
+
+        ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 300);
+        hp_len = MyGdxGame.scroll(hp_len,(player.getHp()/player.getMax_hp())*470,300);
         freq -= Gdx.graphics.getDeltaTime();
 
     }
