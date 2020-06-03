@@ -30,14 +30,14 @@ public class Player_ex extends Character {
     }
 
 
-    public String Sword_swing (Character chr) {
-        String dmg;
+    public float Sword_swing (Character chr) {
+        float dmg;
         if(chr.getType().equals("Armored")){
-            dmg = Float.toString(attack(chr,0,"Normal",getCrit(),getCrit_chance())) +"\n"+ "Armor removed :" + Float.toString(getAtk()*0.2f);
+            dmg = attack(chr,0,"Normal",getCrit(),getCrit_chance());
             chr.setDef(chr.getDef() - getAtk()*0.2f);
         }
         else {
-             dmg = Float.toString(attack(chr, getAtk() * 1.2f, "Normal",getCrit(),getCrit_chance())) ;
+             dmg = attack(chr, getAtk() * 1.2f, "Normal",getCrit(),getCrit_chance());
         }
 
         return dmg;
@@ -45,13 +45,13 @@ public class Player_ex extends Character {
     }
 
 
-    public String Sword_Strike (Character chr) {
-        String dmg;
+    public float Sword_Strike (Character chr) {
+        float dmg;
         if (chr.getType().equals("Normal")){
-            dmg = Float.toString(attack(chr,getAtk() * 1.5f,"Normal",getCrit(),getCrit_chance() + 0.20f));
+            dmg = attack(chr,getAtk() * 1.5f,"Normal",getCrit(),getCrit_chance() + 0.20f);
         }
         else {
-            dmg = Float.toString(attack(chr,getAtk() * 1.5f,"Normal",getCrit(),getCrit_chance()));
+            dmg = attack(chr,getAtk() * 1.5f,"Normal",getCrit(),getCrit_chance());
 
         }
 

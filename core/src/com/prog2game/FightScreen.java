@@ -54,7 +54,7 @@ public class FightScreen implements Screen   {
     //window and skin
     Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
     Window item_window = new Window("Consumables",skin);
-    Window knight_skills = new Window("Knight Skills",skin);
+    Window knight_skills = new Window("Knight",skin);
 
     //characters
     private Player_ex player = new Player_ex();
@@ -110,6 +110,7 @@ public class FightScreen implements Screen   {
             enemy1.rand_enemy(level);
             enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
             level += 1;
+            player.setHp(player.getMax_hp());
         }
 
     }
@@ -171,8 +172,8 @@ public class FightScreen implements Screen   {
 
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
-        TextButton items = new TextButton("Hurt self",skin);
-        TextButton consumables = new TextButton("Con",skin);
+        TextButton items = new TextButton("Items",skin);
+        TextButton consumables = new TextButton("Potions",skin);
         final Knight knight = new Knight("",skin) {
 
             public void result(Object obj) {
@@ -297,8 +298,8 @@ public class FightScreen implements Screen   {
 
         //knight window
 
-        TextButton knight_skill_1 = new TextButton("Sword Thrust",skin);
-        TextButton knight_skill_2 = new TextButton("Sword Strike",skin);
+        TextButton knight_skill_1 = new TextButton("Thrust",skin);
+        TextButton knight_skill_2 = new TextButton("Strike",skin);
         TextButton knight_skill_3 = new TextButton("Buff atk",skin);
 
         knight_skill_1.setTransform(true);
@@ -313,7 +314,10 @@ public class FightScreen implements Screen   {
             public void changed(ChangeEvent event, Actor actor) {
                 if (player.getMp() >=25){
                     player.setMp(player.getMp()-25);
-                    current_text = "Sword Thrust! " + player.Sword_swing(enemy1);;
+                    freq2 = 2f;
+                    dmg = player.Sword_swing(enemy1);
+                    total_dmg += dmg;
+                    current_text = "Sword Thrust! " + dmg + "\nArmor decrease";
                 }
                 else {
                     current_text = "Out of mana!";
@@ -326,7 +330,10 @@ public class FightScreen implements Screen   {
             public void changed(ChangeEvent event, Actor actor) {
                 if ( player.getMp() >=35) {
                     player.setMp(player.getMp()-35);
-                    current_text = "Sword Strike! " + player.Sword_Strike(enemy1);
+                    freq2 = 2f;
+                    dmg = player.Sword_Strike(enemy1);
+                    total_dmg += dmg;
+                    current_text = "Sword Strike! " + dmg;
                 }
                 else {
                     current_text = "Out of mana!";
@@ -351,10 +358,10 @@ public class FightScreen implements Screen   {
         knight_skills.pack();
         knight_skills.setResizable(true);
         knight_skills.setKeepWithinStage(false);
-        knight_skills.setSize(200,250);
-        knight_skills.add(knight_skill_1).space(1,5,1,1).uniform().row();
-        knight_skills.add(knight_skill_2).uniform().row();
-        knight_skills.add(knight_skill_3).uniform().row();
+        knight_skills.setSize(180,250);
+        knight_skills.add(knight_skill_1).left().uniform().row();
+        knight_skills.add(knight_skill_2).left().uniform().row();
+        knight_skills.add(knight_skill_3).left().uniform().row();
         stage.addActor(knight_skills);
 
 
@@ -397,6 +404,7 @@ public class FightScreen implements Screen   {
         font.draw(batch, enemy1.getType(), 130, 467);
         font.draw(batch, Float.toString(enemy1.getHp()), 200, 467);
         font.draw(batch, "Armor: " + Float.toString(enemy1.getDef()), 300, 467);
+        font.draw(batch, "Level: " + Integer.toString(level), 510, 467);
         font.draw(batch, "Mana pots " +Integer.toString(player.getM_pot()), 450, 20);
         font.draw(batch, "Health pots " +Integer.toString(player.getH_pot()), 550, 20);
         font.draw(batch, Float.toString(player.getHp()), 350, 131);
