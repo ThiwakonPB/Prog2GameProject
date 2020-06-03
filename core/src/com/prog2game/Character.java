@@ -13,6 +13,10 @@ abstract class Character {
     private float def;
     private String type;
 
+    private float poison, stun;
+
+    private float status[];
+
     public Character () {
         this.hp = 100;
         this.mp = 100;

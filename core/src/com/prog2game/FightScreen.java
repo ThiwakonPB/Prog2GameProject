@@ -8,17 +8,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 
 public class FightScreen implements Screen   {
 
     private final MyGdxGame parent;
-    private final Stage stage;
+    private Stage stage,stage2;
+
     //texture
     private SpriteBatch batch;
     private Texture texture;
@@ -32,6 +31,7 @@ public class FightScreen implements Screen   {
     //var
     private float ene_hp_len = 0;
     private float hp_len = 0;
+    private float mana_len = 0;
     private float hover = 200;
     private float freq ;
     private float freq2;
@@ -41,23 +41,29 @@ public class FightScreen implements Screen   {
     float y = 300;
     float sx = 1;
     float sy =1;
-    int draw_dmg = 0;
     float num2 = 0;
     boolean enemy_turn = false;
+    private boolean consumable = false;
 
     //fonts
     private BitmapFont font;
     private BitmapFont font2;
     private String current_text = "yes";
 
+    //window and skin
+    Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
+    Window item_window = new Window("Consumables",skin);
 
     //characters
     private Player_ex player = new Player_ex();
     private Enemy enemy1 = new Enemy();
 
+
+
     public FightScreen(MyGdxGame myGdxGame) {
         enemy1.rand_enemy(level);
         batch = new SpriteBatch();
+
         mana = new Texture(Gdx.files.internal("mana.png"));
         texture = new Texture(Gdx.files.internal("cave.png"));
         healthbar = new Texture(Gdx.files.internal("health_back.png"));
@@ -66,8 +72,10 @@ public class FightScreen implements Screen   {
         enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
         parent = myGdxGame;
         stage = new Stage(new ScreenViewport());
+        stage2 = new Stage();
         font = new BitmapFont();
         font2 = new BitmapFont();
+
 
 
 
@@ -94,12 +102,11 @@ public class FightScreen implements Screen   {
             return current_pos;
     }
 
-    public void Enemy_spawn(){
+    public void Enemy_spawn_check(){
 
         if (enemy1.getHp() <= 0) {
             enemy1.rand_enemy(level);
             enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
-
         }
 
     }
@@ -153,12 +160,13 @@ public class FightScreen implements Screen   {
         table.bottom();
         table.left();
         stage.addActor(table);
-        Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
+
 
 
         TextButton attack = new TextButton("Attack",skin);
         TextButton skills = new TextButton("Skills",skin);
         TextButton items = new TextButton("Hurt self",skin);
+        TextButton consumables = new TextButton("Con",skin);
         final Knight knight = new Knight("",skin) {
 
             public void result(Object obj) {
@@ -167,6 +175,18 @@ public class FightScreen implements Screen   {
             }
 
         };
+
+        consumables.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (consumable == true){
+                    consumable =false;
+                }
+                else {
+                    consumable = true;
+                }
+            }
+        });
         attack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -182,6 +202,9 @@ public class FightScreen implements Screen   {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 parent.changeScreen(MyGdxGame.MENU);
+
+
+
             }
         });
 
@@ -196,6 +219,54 @@ public class FightScreen implements Screen   {
         table.row().pad(10,0,10,0);
         table.add(skills).fillX().uniformX();
         table.add(items).left().fillX().uniformX();
+        table.add(consumables).left().fill().uniform().top();
+
+        TextButton health_pot = new TextButton("Health",skin);
+        TextButton mana_pot = new TextButton("Mana: " + player.getM_pot(),skin);
+
+        mana_pot.setTransform(true);
+        health_pot.setTransform(true);
+        health_pot.scaleBy(-0.3f);
+        mana_pot.scaleBy(-0.3f);
+        health_pot.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+                if (player.getH_pot() > 0) {
+                    player.Health_regen();
+                    player.setH_pot(player.getH_pot()-1);
+                }
+                else{
+                    current_text = "You're out of Hp pots!";
+                }
+
+            }
+        });
+        mana_pot.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (player.getM_pot() > 0) {
+                    player.Mana_regen();
+                    player.setM_pot(player.getM_pot()-1);
+                }
+                else{
+                    current_text = "You're out of Mp pots!";
+                }
+
+
+            }
+        });
+
+        item_window.pad(32);
+        item_window.pack();
+        item_window.setResizable(true);
+        item_window.setKeepWithinStage(false);
+        item_window.setSize(300,140);
+        item_window.add(health_pot).left();
+        item_window.add(mana_pot).left();
+        stage.addActor(table);
+        stage.addActor(item_window);
+
 
     }
 
@@ -209,11 +280,11 @@ public class FightScreen implements Screen   {
         stage.getBatch().begin();
         stage.getBatch().draw(texture,0,0,650,500);
 
-        //player healthbar
-        stage.getBatch().draw(healthbar,110,90,600,80);
-        stage.getBatch().draw(health,155,124,hp_len,20);
-        stage.getBatch().draw(healthbar,110,60,600,80);
-        stage.getBatch().draw(mana,155,95,hp_len,20);
+        //player healthbar and manabar
+        stage.getBatch().draw(healthbar,110,90-8,600,80);
+        stage.getBatch().draw(health,155,124-8,hp_len,20);   //health
+        stage.getBatch().draw(healthbar,110,60-8,600,80);
+        stage.getBatch().draw(mana,155,95-8,mana_len,20);    //mana
 
         //enemy sprite and healthbar
         stage.getBatch().draw(enemy,250,hover,200,200);
@@ -230,8 +301,12 @@ public class FightScreen implements Screen   {
 
         batch.begin();
         // Put anything text related you want to render here
-        font.draw(batch, current_text, 300, 100);
+        font.draw(batch, current_text, 450, 60);
         font.draw(batch, enemy1.getName(), 100, 400);
+        font.draw(batch, "Mana pots " +Integer.toString(player.getM_pot()), 450, 20);
+        font.draw(batch, "Health pots " +Integer.toString(player.getH_pot()), 550, 20);
+        font.draw(batch, Float.toString(player.getHp()), 350, 131);
+        font.draw(batch, Float.toString(player.getMp()), 350, 101);
         //Damage numbers
             if (enemy1.getHp()> 0) {
                 if (freq2 > 0 || num2 < total_dmg) {
@@ -268,15 +343,21 @@ public class FightScreen implements Screen   {
         stage.draw();
 
 
-        Enemy_spawn();
+        Enemy_spawn_check();
         Enemy_Attack();
-        ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 300);
+
+        //
+        ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 500);
         hp_len = MyGdxGame.scroll(hp_len,(player.getHp()/player.getMax_hp())*470,300);
+        mana_len = MyGdxGame.scroll(mana_len,(player.getMp()/player.getMax_mp())*470,300);
         freq -= Gdx.graphics.getDeltaTime();
         freq2 -= Gdx.graphics.getDeltaTime();
         if (num2 < total_dmg){
             num2 += 60*Gdx.graphics.getDeltaTime();
         }
+        item_window.setVisible(consumable);
+
+
     }
 
     @Override
@@ -301,6 +382,6 @@ public class FightScreen implements Screen   {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        stage2.dispose();
     }
 }

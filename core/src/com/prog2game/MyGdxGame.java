@@ -11,6 +11,7 @@ public class MyGdxGame extends Game {
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
 	public final static int OPENING = 4;
+	public final static int PREFIGHT = 5;
 
 	//-Properties:
 	private LoadingScreen loadingScreen;
@@ -19,6 +20,7 @@ public class MyGdxGame extends Game {
 	private FightScreen fightScreen;
 	private EndScreen endScreen;
 	private Opening openingScreen;
+	private PreFightScreen preFightScreen;
 
 	//-Methods:
 	@Override
@@ -52,6 +54,11 @@ public class MyGdxGame extends Game {
 				if( openingScreen== null) openingScreen = new Opening(this);
 				this.setScreen(openingScreen);
 				break;
+			case PREFIGHT:
+				if( preFightScreen== null) preFightScreen = new PreFightScreen(this);
+				this.setScreen(preFightScreen);
+				break;
+
 
 		}
 	}

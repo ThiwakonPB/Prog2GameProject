@@ -31,7 +31,7 @@ public class PreFightScreen implements Screen {
         texture = new Texture(Gdx.files.internal("logo2.png"));
         castle_background = new Texture(Gdx.files.internal("castle_2.png"));
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+
 
     }
 
@@ -80,7 +80,7 @@ public class PreFightScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -92,8 +92,7 @@ public class PreFightScreen implements Screen {
         stage.getBatch().end();
 
         stage.draw();
-        t_posY = MyGdxGame.scroll(t_posY, 300, 100);
-        b_posY = MyGdxGame.scroll(b_posY, -250, 50);
+
 
     }
 

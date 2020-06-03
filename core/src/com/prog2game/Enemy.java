@@ -18,17 +18,6 @@ public class Enemy extends Character {
 
 
     public void rand_enemy(int level) {
-        enemies.put(0, new Enemy("Goblin",100,10,10,"Normal","download.png"));
-        enemies.put(1, new Enemy("HammerHead",100,10,15,"Normal","download.png"));
-        enemies.put(2, new Enemy("Killer",120,10,10,"Normal","download.png"));
-        enemies.put(3, new Enemy("Jakey",100,10,10,"Normal","download.png"));
-        enemies.put(4, new Enemy("Beat",111,10,10,"Normal","ghost.png"));
-        enemies.put(5, new Enemy("Ming",130,10,10,"Normal","download.png"));
-        enemies.put(6, new Enemy("Dragon",110,10,10,"Normal","ghost.png"));
-        enemies.put(7, new Enemy("Monkey",130,10,10,"Normal","ghost.png"));
-        enemies.put(8, new Enemy("Fogot",100,10,10,"Normal","download.png"));
-        enemies.put(9, new Enemy("Yeti",130,10,10,"Normal","ghost.png"));
-        enemies.put(10, new Enemy("King Goblin",100,10,10,"Normal","download.png"));
 
         Random rand = new Random();
         int n = rand.nextInt(level);
@@ -45,10 +34,21 @@ public class Enemy extends Character {
     }
 
     public Enemy() {
-        this.max_hp=100;
+        enemies.put(0, new Enemy("Goblin",100,10,10,"Normal","download.png"));
+        enemies.put(1, new Enemy("HammerHead",100,10,15,"Normal","download.png"));
+        enemies.put(2, new Enemy("Killer",120,10,10,"Normal","download.png"));
+        enemies.put(3, new Enemy("Jakey",100,10,10,"Normal","download.png"));
+        enemies.put(4, new Enemy("Beat",111,10,10,"Normal","ghost.png"));
+        enemies.put(5, new Enemy("Ming",130,10,10,"Normal","download.png"));
+        enemies.put(6, new Enemy("Dragon",110,10,10,"Normal","ghost.png"));
+        enemies.put(7, new Enemy("Monkey",130,10,10,"Normal","ghost.png"));
+        enemies.put(8, new Enemy("Fogot",100,10,10,"Normal","download.png"));
+        enemies.put(9, new Enemy("Yeti",130,10,10,"Normal","ghost.png"));
+        enemies.put(10, new Enemy("King Goblin",100,10,10,"Normal","download.png"));
     }
 
     public Enemy (String name,float hp,float atk,float def,String type,String texture) {
+
         this.setHp(hp);
         this.setName(name);
         this.setAtk(atk);
@@ -57,6 +57,10 @@ public class Enemy extends Character {
         this.texture = texture;
         this.max_hp = hp;
     }
+
+
+
+
 
 
 

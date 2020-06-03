@@ -5,13 +5,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class MenuScreen implements Screen {
 
@@ -45,7 +46,11 @@ public class MenuScreen implements Screen {
         table.setDebug(false);
         stage.addActor(table);
         Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
-
+        
+//        Texture t = new Texture(Gdx.files.internal("health.png"));
+//        t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//        TextureRegion playbuttonregion = new TextureRegion(t, 0, 0, 50, 50);
+//        Image buttonm = new Image(playbuttonregion);
         ///Create the button objects to use later
       final TextButton newGame = new TextButton("Start", skin);
       TextButton preferences = new TextButton("Settings", skin);
@@ -55,10 +60,18 @@ public class MenuScreen implements Screen {
           @Override
           public void changed(ChangeEvent event, Actor actor) {
               ///add code here to execute when this button is pressed
-              parent.changeScreen(MyGdxGame.OPENING);
+              parent.changeScreen(MyGdxGame.PREFIGHT);
 
           }
       });
+
+//      buttonm.addListener(new ClickListener() {
+//          public void clicked (InputEvent event, float x, float y) {
+//              //your code to do stuff when the button is clicked
+//              parent.changeScreen(MyGdxGame.OPENING);
+//          }
+//
+//      });
 
      exit.addListener(new ChangeListener() {
 

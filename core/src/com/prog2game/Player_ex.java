@@ -2,6 +2,9 @@ package com.prog2game;
 
 public class Player_ex extends Character {
 
+
+    private int h_pot = 5;
+    private int m_pot = 5;
     private int level = 0;
     private float max_hp = 1000;
     private float max_mp = 100;
@@ -27,6 +30,31 @@ public class Player_ex extends Character {
 
 
     }
+
+    public void Mana_regen () {
+
+        if(getMp() < getMax_mp()*75) {
+            setMp(getMp() + getMax_mp()/4);
+        }
+        else {
+            setMp(getMax_mp());
+        }
+
+    }
+
+
+    public void Health_regen () {
+
+        if(getHp() < (getMax_hp()*0.75)) {
+            setHp(getHp() + (getMax_hp() / 4));
+        }
+        else {
+            setHp(getMax_hp());
+        }
+
+
+    }
+
 
 
 
@@ -74,6 +102,22 @@ public class Player_ex extends Character {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getH_pot() {
+        return h_pot;
+    }
+
+    public void setH_pot(int h_pot) {
+        this.h_pot = h_pot;
+    }
+
+    public int getM_pot() {
+        return m_pot;
+    }
+
+    public void setM_pot(int m_pot) {
+        this.m_pot = m_pot;
     }
 
 }
