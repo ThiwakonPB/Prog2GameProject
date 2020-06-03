@@ -37,13 +37,14 @@ public class FightScreen implements Screen   {
     private float freq2;
     private float dmg;
     private float total_dmg;
-    private int level = 5;
+    private int level = 1;
     float y = 300;
     float sx = 1;
     float sy =1;
     float num2 = 0;
     boolean enemy_turn = false;
     private boolean consumable = false;
+    private boolean knight_visible = false;
 
     //fonts
     private BitmapFont font;
@@ -53,6 +54,7 @@ public class FightScreen implements Screen   {
     //window and skin
     Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
     Window item_window = new Window("Consumables",skin);
+    Window knight_skills = new Window("Knight Skills",skin);
 
     //characters
     private Player_ex player = new Player_ex();
@@ -107,6 +109,7 @@ public class FightScreen implements Screen   {
         if (enemy1.getHp() <= 0) {
             enemy1.rand_enemy(level);
             enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
+            level += 1;
         }
 
     }
@@ -114,7 +117,7 @@ public class FightScreen implements Screen   {
     public void Enemy_Attack (){
 
         if (enemy_turn == true){
-            enemy1.attack(player);
+            enemy1.attack(player,0,enemy1.getType(),enemy1.getCrit(),enemy1.getCrit_chance());
             enemy_turn = false;
         }
 
@@ -141,12 +144,15 @@ public class FightScreen implements Screen   {
         }
         /// Code under here will executed no matter which method used from above
         {
+
             text("What will you attack with?");
-            button("Sword","Attacked with a sword");
-            button("Blizzard",true);
-            button("Fireball",true);
+            button("Thrust","1");
+            button("Strike","2");
+            button("Buff atk","3");
             button("Lighting",true);
             button("Back",true);
+
+
 
         }
     }
@@ -171,7 +177,7 @@ public class FightScreen implements Screen   {
 
             public void result(Object obj) {
                 // Takes the results from Attacked dialog function above as a input in here.
-                current_text = obj.toString();
+
             }
 
         };
@@ -190,11 +196,24 @@ public class FightScreen implements Screen   {
         attack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                dmg = player.attack(enemy1);
+                dmg = player.attack(enemy1,0,player.getType(),player.getCrit(),player.getCrit_chance());
                 total_dmg += dmg;
                 freq2 = 2f;
                 current_text = "You dealt:" + dmg;
                 enemy_turn = true;
+                if(player.getMp() < player.getMax_mp()*0.95f) {
+                    player.setMp(player.getMp() + player.getMax_mp()*0.05f);
+                }
+                else {
+                    player.setMp(player.getMax_mp());
+                }
+                if (player.getAtk_buff() <= 0){
+                    player.setAtk(player.getMax_atk());
+                }
+                else {
+                    player.setAtk_buff(player.getAtk_buff() - 1);
+                }
+
 
             }
         });
@@ -211,18 +230,26 @@ public class FightScreen implements Screen   {
         skills.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                knight.show(stage);
+                if (knight_visible == true){
+                    knight_visible =false;
+                }
+                else {
+                    knight_visible = true;
+                }
 
             }
         });
+
         table.add(attack).fillX().uniformX();
         table.row().pad(10,0,10,0);
         table.add(skills).fillX().uniformX();
         table.add(items).left().fillX().uniformX();
         table.add(consumables).left().fill().uniform().top();
 
+
+        //Item window
         TextButton health_pot = new TextButton("Health",skin);
-        TextButton mana_pot = new TextButton("Mana: " + player.getM_pot(),skin);
+        TextButton mana_pot = new TextButton("Mana",skin);
 
         mana_pot.setTransform(true);
         health_pot.setTransform(true);
@@ -261,11 +288,75 @@ public class FightScreen implements Screen   {
         item_window.pack();
         item_window.setResizable(true);
         item_window.setKeepWithinStage(false);
-        item_window.setSize(300,140);
-        item_window.add(health_pot).left();
-        item_window.add(mana_pot).left();
-        stage.addActor(table);
+        item_window.setSize(200,200);
+        item_window.add(health_pot).left().row();
+        item_window.add(mana_pot).left().row();
         stage.addActor(item_window);
+
+        ////////
+
+        //knight window
+
+        TextButton knight_skill_1 = new TextButton("Sword Thrust",skin);
+        TextButton knight_skill_2 = new TextButton("Sword Strike",skin);
+        TextButton knight_skill_3 = new TextButton("Buff atk",skin);
+
+        knight_skill_1.setTransform(true);
+        knight_skill_2.setTransform(true);
+        knight_skill_3.setTransform(true);
+        knight_skill_1.scaleBy(-0.3f);
+        knight_skill_2.scaleBy(-0.3f);
+        knight_skill_3.scaleBy(-0.3f);
+
+        knight_skill_1.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (player.getMp() >=25){
+                    player.setMp(player.getMp()-25);
+                    current_text = "Sword Thrust! " + player.Sword_swing(enemy1);;
+                }
+                else {
+                    current_text = "Out of mana!";
+                }
+            }
+        });
+
+        knight_skill_2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if ( player.getMp() >=35) {
+                    player.setMp(player.getMp()-35);
+                    current_text = "Sword Strike! " + player.Sword_Strike(enemy1);
+                }
+                else {
+                    current_text = "Out of mana!";
+                }
+            }
+        });
+
+        knight_skill_3.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                 if ( player.getMp() >=20) {
+                    player.setMp(player.getMp()-20);
+                    current_text = player.Atk_buff();
+                }
+                else {
+                    current_text = "Out of mana!";
+                }
+            }
+        });
+
+        knight_skills.pad(32);
+        knight_skills.pack();
+        knight_skills.setResizable(true);
+        knight_skills.setKeepWithinStage(false);
+        knight_skills.setSize(200,250);
+        knight_skills.add(knight_skill_1).space(1,5,1,1).uniform().row();
+        knight_skills.add(knight_skill_2).uniform().row();
+        knight_skills.add(knight_skill_3).uniform().row();
+        stage.addActor(knight_skills);
+
 
 
     }
@@ -302,11 +393,15 @@ public class FightScreen implements Screen   {
         batch.begin();
         // Put anything text related you want to render here
         font.draw(batch, current_text, 450, 60);
-        font.draw(batch, enemy1.getName(), 100, 400);
+        font.draw(batch, enemy1.getName(), 30, 467);
+        font.draw(batch, enemy1.getType(), 130, 467);
+        font.draw(batch, Float.toString(enemy1.getHp()), 200, 467);
+        font.draw(batch, "Armor: " + Float.toString(enemy1.getDef()), 300, 467);
         font.draw(batch, "Mana pots " +Integer.toString(player.getM_pot()), 450, 20);
         font.draw(batch, "Health pots " +Integer.toString(player.getH_pot()), 550, 20);
         font.draw(batch, Float.toString(player.getHp()), 350, 131);
         font.draw(batch, Float.toString(player.getMp()), 350, 101);
+        font.draw(batch, "Attack: " +Float.toString(player.getAtk()), 300, 150);
         //Damage numbers
             if (enemy1.getHp()> 0) {
                 if (freq2 > 0 || num2 < total_dmg) {
@@ -347,7 +442,7 @@ public class FightScreen implements Screen   {
         Enemy_Attack();
 
         //
-        ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 500);
+        ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 700);
         hp_len = MyGdxGame.scroll(hp_len,(player.getHp()/player.getMax_hp())*470,300);
         mana_len = MyGdxGame.scroll(mana_len,(player.getMp()/player.getMax_mp())*470,300);
         freq -= Gdx.graphics.getDeltaTime();
@@ -356,6 +451,7 @@ public class FightScreen implements Screen   {
             num2 += 60*Gdx.graphics.getDeltaTime();
         }
         item_window.setVisible(consumable);
+        knight_skills.setVisible(knight_visible);
 
 
     }

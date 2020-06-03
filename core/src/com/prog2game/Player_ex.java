@@ -6,10 +6,14 @@ public class Player_ex extends Character {
     private int h_pot = 5;
     private int m_pot = 5;
     private int level = 0;
-    private float max_hp = 1000;
+    private float max_hp = 100;
     private float max_mp = 100;
     private float max_atk = 10;
     private float max_def = 10;
+    private float max_crit = 2;
+    private float max_crit_chance = 0.10f;
+    private float atk_buff;
+
     private String type = "Normal";
 
 
@@ -21,19 +25,49 @@ public class Player_ex extends Character {
         this.setDef(max_def);
         this.setType(type);
         this.setName("Player");
+        this.setCrit(max_crit);
+        this.setCrit_chance(max_crit_chance);
     }
 
 
-    public void Sword_swing (Character chr) {
+    public String Sword_swing (Character chr) {
+        String dmg;
+        if(chr.getType().equals("Armored")){
+            dmg = Float.toString(attack(chr,0,"Normal",getCrit(),getCrit_chance())) +"\n"+ "Armor removed :" + Float.toString(getAtk()*0.2f);
+            chr.setDef(chr.getDef() - getAtk()*0.2f);
+        }
+        else {
+             dmg = Float.toString(attack(chr, getAtk() * 1.2f, "Normal",getCrit(),getCrit_chance())) ;
+        }
+
+        return dmg;
+
+    }
 
 
+    public String Sword_Strike (Character chr) {
+        String dmg;
+        if (chr.getType().equals("Normal")){
+            dmg = Float.toString(attack(chr,getAtk() * 1.5f,"Normal",getCrit(),getCrit_chance() + 0.20f));
+        }
+        else {
+            dmg = Float.toString(attack(chr,getAtk() * 1.5f,"Normal",getCrit(),getCrit_chance()));
 
+        }
 
+        return dmg;
+    }
+
+    public String Atk_buff (){
+
+        this.setAtk(getMax_atk()*1.2f);
+        this.atk_buff = 3;
+        return "20% buff active";
     }
 
     public void Mana_regen () {
 
-        if(getMp() < getMax_mp()*75) {
+        if(getMp() < getMax_mp()*0.75) {
             setMp(getMp() + getMax_mp()/4);
         }
         else {
@@ -63,6 +97,30 @@ public class Player_ex extends Character {
 
 
 
+
+    public float getMax_crit() {
+        return max_crit;
+    }
+
+    public void setMax_crit(float max_crit) {
+        this.max_crit = max_crit;
+    }
+
+    public float getMax_crit_chance() {
+        return max_crit_chance;
+    }
+
+    public void setMax_crit_chance(float max_crit_chance) {
+        this.max_crit_chance = max_crit_chance;
+    }
+
+    public float getAtk_buff() {
+        return atk_buff;
+    }
+
+    public void setAtk_buff(float atk_buff) {
+        this.atk_buff = atk_buff;
+    }
 
 
     public float getMax_hp() {
