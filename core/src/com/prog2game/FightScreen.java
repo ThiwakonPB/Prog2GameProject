@@ -111,6 +111,8 @@ public class FightScreen implements Screen   {
             enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
             level += 1;
             player.setHp(player.getMax_hp());
+            enemy_turn = false;
+
         }
 
     }
@@ -118,8 +120,8 @@ public class FightScreen implements Screen   {
     public void Enemy_Attack (){
 
         if (enemy_turn == true){
-            enemy1.attack(player,0,enemy1.getType(),enemy1.getCrit(),enemy1.getCrit_chance());
-            enemy_turn = false;
+                enemy1.attack(player, 0, enemy1.getType(), enemy1.getCrit(), enemy1.getCrit_chance());
+                enemy_turn = false;
         }
 
 

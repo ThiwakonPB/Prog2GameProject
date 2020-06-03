@@ -24,7 +24,7 @@ public class Enemy extends Character {
         int n = rand.nextInt(level);
         this.setHp(enemies.get(n).getHp() + level*1.2f);
         this.setName(enemies.get(n).getName());
-        this.setAtk(enemies.get(n).getAtk()+ level*1f);
+        this.setAtk(enemies.get(n).getAtk()+ level*0.3f);
         this.setDef(enemies.get(n).getDef()+ level*0.2f);
         this.setType(enemies.get(n).getType());
         this.setCrit(enemies.get(n).getCrit());
