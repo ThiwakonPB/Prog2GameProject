@@ -13,10 +13,9 @@ public class MyGdxGame extends Game {
     //-Properties:
     public AssetManager manager = new AssetManager();
     public Json json = new Json();
-
-    public GameData gameData;
+    public static GameData gameData;
     public Player player;
-    
+
 
 //    private LoadingScreen loadingScreen;
     private PreferencesScreen preferencesScreen;
@@ -31,7 +30,7 @@ public class MyGdxGame extends Game {
     //-Methods:
     @Override
     public void create() {
-        // Game is launched, check first for latest save game file:
+        // Game just launched, check first for latest save game file:
         getMostRecentSavedGame();
 
         //-TODO: Consider removing this, since we don't really use a loading screen for anything
@@ -43,9 +42,9 @@ public class MyGdxGame extends Game {
     public void changeScreen(Screens screen) {
         switch (screen) {
 
-            //-Possible TODO: Consider removing "if" statements, because technically we should remove 'screen' objects
-            // once they're not being used anyway. This would require making sure that screens are disposed before
-            // switching to new screens
+            //-Possible TODO: Consider removing "if" statements in each case, because technically we should remove 'screen' objects
+            // once they're not being used anymore. This would require making sure that screens are disposed before
+            // switching to new screens though. Worth considering
             case MenuScreen:
                 if (menuScreen == null) menuScreen = new MenuScreen(this);
                 menuScreen = new MenuScreen(this);
@@ -78,8 +77,8 @@ public class MyGdxGame extends Game {
 
         }
 
-        // Outputs all the 'save game' file
-        System.out.println("Stuff:" + gameData.getMaximum_HP() + " " + gameData.getMaximum_MP() + " " + gameData.getMaximum_Attack() + " " + gameData.getPoints());
+        // Outputs all the 'save game' file (DEBUG)
+//        System.out.println("Stuff:" + gameData.getMaximum_HP() + " " + gameData.getMaximum_MP() + " " + gameData.getMaximum_Attack() + " " + gameData.getPoints());
     }
 
     // Get saved game (if exists)

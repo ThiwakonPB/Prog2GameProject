@@ -9,12 +9,11 @@ public class Enemy extends Character {
     private float max_mp;
     private float max_atk;
     private float max_def;
-
     private String texture;
 
     //-Constructors:
     public Enemy () {}
-    public Enemy(String name, float hp, float atk, float crit, float crit_chance, float def, String type, String texture) {
+    public Enemy(String name, float hp, float atk, float crit, float crit_chance, float def, Type type, String texture) {
 
         this.setHp(hp);
         this.setName(name);

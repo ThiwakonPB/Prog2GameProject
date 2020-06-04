@@ -1,5 +1,7 @@
 package com.prog2game.characters;
 
+import com.prog2game.MyGdxGame;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -28,10 +30,9 @@ public class Player extends Character {
     public Player() {
 
         super();
-        read();
-        setMax_hp(Float.parseFloat(stats.get(0)) * 10);
-        setMax_mp(Float.parseFloat(stats.get(1)));
-        setMax_atk(Float.parseFloat(stats.get(2)));
+        setMax_hp(MyGdxGame.gameData.getMaximum_HP() * 10);
+        setMax_mp(MyGdxGame.gameData.getMaximum_MP());
+        setMax_atk(MyGdxGame.gameData.getMaximum_Attack());
         this.setHp(max_hp);
         this.setMp(max_mp);
         this.setAtk(max_atk);
@@ -45,12 +46,13 @@ public class Player extends Character {
 
     //-Public Methods:
     public float Sword_swing(Character chr) {
+
         float dmg;
-        if (chr.getType().equals("Armored")) {
-            dmg = attack(chr, 0, "Normal", getCrit(), getCrit_chance());
+        if (chr.getType() == Type.Armored) {
+            dmg = attack(chr, 0, Type.Normal, getCrit(), getCrit_chance());
             chr.setDef(chr.getDef() - getAtk() * 0.2f);
         } else {
-            dmg = attack(chr, getAtk() * 1.2f, "Normal", getCrit(), getCrit_chance());
+            dmg = attack(chr, getAtk() * 1.2f, Type.Normal, getCrit(), getCrit_chance());
         }
 
         return dmg;
@@ -60,11 +62,10 @@ public class Player extends Character {
 
     public float Sword_Strike(Character chr) {
         float dmg;
-        if (chr.getType().equals("Normal")) {
-            dmg = attack(chr, getAtk() * 1.5f, "Normal", getCrit(), getCrit_chance() + 0.20f);
+        if (chr.getType() == Type.Normal) {
+            dmg = attack(chr, getAtk() * 1.5f, Type.Normal, getCrit(), getCrit_chance() + 0.20f);
         } else {
-            dmg = attack(chr, getAtk() * 1.5f, "Normal", getCrit(), getCrit_chance());
-
+            dmg = attack(chr, getAtk() * 1.5f, Type.Normal, getCrit(), getCrit_chance());
         }
 
         return dmg;
@@ -98,34 +99,10 @@ public class Player extends Character {
 
     }
 
+    //-TODO: Ask Jero what this 'n' is supposed to do
+    //       int n = Integer.parseInt(stats.get(3)) + (this.level / 5);
+    //       myWriter.write(stats.get(0) + " " + stats.get(1) + " " + stats.get(2) + " " + Integer.toString(n));
 
-    //-TODO: Replace Read/Write with proper JSON reading and writing
-    public void read() {
-        try {
-            File myObj = new File("player_max_stats.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNext()) {
-                stats.add(myReader.next());
-                System.out.println(stats.toString());
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-    public void write() {
-        int n = Integer.parseInt(stats.get(3)) + (this.level / 5);
-        try {
-            FileWriter myWriter = new FileWriter("player_max_stats.txt");
-            myWriter.write(stats.get(0) + " " + stats.get(1) + " " + stats.get(2) + " " + Integer.toString(n));
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
 
     //-Getters:
     public float getMax_crit() {

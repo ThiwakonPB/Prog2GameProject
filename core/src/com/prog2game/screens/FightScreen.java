@@ -409,7 +409,7 @@ public class FightScreen implements Screen {
         // Put anything text related you want to render here
         font.draw(batch, current_text, 450, 60);
         font.draw(batch, enemy1.getName(), 30, 467);
-        font.draw(batch, enemy1.getType(), 130, 467);
+        font.draw(batch, enemy1.getType().toString(), 130, 467);
         font.draw(batch, Float.toString(enemy1.getHp()), 200, 467);
         font.draw(batch, "Armor: " + enemy1.getDef(), 300, 467);
         font.draw(batch, "Level: " + level, 510, 467);
