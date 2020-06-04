@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.prog2game.MyGdxGame;
-import org.graalvm.compiler.phases.common.NodeCounterPhase;
-
-import java.awt.*;
 
 public class Opening implements Screen {
 

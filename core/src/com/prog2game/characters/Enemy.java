@@ -3,10 +3,10 @@ package com.prog2game.characters;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
 public class Enemy extends com.prog2game.characters.Character {
 
-
-
+    //-Properties:
     private float max_hp = 100;
     private float max_mp = 100;
     private float max_atk = 10;
@@ -15,7 +15,7 @@ public class Enemy extends com.prog2game.characters.Character {
 
 
     private String texture;
-    Map<Integer, Enemy> enemies = new HashMap<Integer,Enemy>();
+    Map<Integer, Enemy> enemies = new HashMap<Integer, Enemy>();
 
 
 
@@ -65,12 +65,6 @@ public class Enemy extends com.prog2game.characters.Character {
         this.texture = texture;
         this.max_hp = hp;
     }
-
-
-
-
-
-
 
 
     public String getTexture() {
