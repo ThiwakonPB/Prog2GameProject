@@ -15,60 +15,37 @@ public class Player extends Character {
     private int h_pot = 5;
     private int m_pot = 5;
     private int level = 0;
-    private float max_hp = 100;
-    private float max_mp = 100;
-    private float max_atk = 10;
-    private float max_def = 10;
     private float max_crit = 2;
     private float max_crit_chance = 0.10f;
     private float atk_buff;
-    ArrayList<String> stats = new ArrayList<String>();
-
-    private Type type = Type.Normal;
 
     //-Constructors:
     public Player() {
 
         super();
+        setName("Player");
         setMax_hp(MyGdxGame.gameData.getMaximum_HP() * 10);
         setMax_mp(MyGdxGame.gameData.getMaximum_MP());
         setMax_atk(MyGdxGame.gameData.getMaximum_Attack());
-        this.setHp(max_hp);
-        this.setMp(max_mp);
-        this.setAtk(max_atk);
-        this.setDef(max_def);
-        this.setType(type);
-        this.setName("Player");
-        this.setCrit(max_crit);
-        this.setCrit_chance(max_crit_chance);
+        setType(Type.Normal);
+        setCrit(max_crit);
+        setCrit_chance(max_crit_chance);
 
     }
 
     //-Public Methods:
-    public float Sword_swing(Character chr) {
+    public void Sword_swing(Character chr) {
 
-        float dmg;
         if (chr.getType() == Type.Armored) {
-            dmg = attack(chr, 0, Type.Normal, getCrit(), getCrit_chance());
+            attack(chr, 0);
             chr.setDef(chr.getDef() - getAtk() * 0.2f);
         } else {
-            dmg = attack(chr, getAtk() * 1.2f, Type.Normal, getCrit(), getCrit_chance());
+            attack(chr, getAtk() * 1.2f);
         }
-
-        return dmg;
-
     }
 
-
-    public float Sword_Strike(Character chr) {
-        float dmg;
-        if (chr.getType() == Type.Normal) {
-            dmg = attack(chr, getAtk() * 1.5f, Type.Normal, getCrit(), getCrit_chance() + 0.20f);
-        } else {
-            dmg = attack(chr, getAtk() * 1.5f, Type.Normal, getCrit(), getCrit_chance());
-        }
-
-        return dmg;
+    public void Sword_Strike(Character chr) {
+        attack(chr, getAtk() * 1.5f);
     }
 
     public String Atk_buff() {
@@ -79,30 +56,26 @@ public class Player extends Character {
     }
 
     public void Mana_regen() {
-
         if (getMp() < getMax_mp() * 0.75) {
             setMp(getMp() + getMax_mp() / 4);
         } else {
             setMp(getMax_mp());
         }
-
     }
 
     public void Health_regen() {
-
         if (getHp() < (getMax_hp() * 0.75)) {
             setHp(getHp() + (getMax_hp() / 4));
         } else {
             setHp(getMax_hp());
         }
-
-
     }
 
-    //-TODO: Ask Jero what this 'n' is supposed to do
+    //-TODO: Ask Jero what this 'n' is supposed to do in this code:
+    //      {
     //       int n = Integer.parseInt(stats.get(3)) + (this.level / 5);
     //       myWriter.write(stats.get(0) + " " + stats.get(1) + " " + stats.get(2) + " " + Integer.toString(n));
-
+    //      }
 
     //-Getters:
     public float getMax_crit() {
@@ -113,18 +86,6 @@ public class Player extends Character {
     }
     public float getAtk_buff() {
         return atk_buff;
-    }
-    public float getMax_hp() {
-        return max_hp;
-    }
-    public float getMax_mp() {
-        return max_mp;
-    }
-    public float getMax_atk() {
-        return max_atk;
-    }
-    public float getMax_def() {
-        return max_def;
     }
     public int getLevel() {
         return level;
@@ -145,18 +106,6 @@ public class Player extends Character {
     }
     public void setAtk_buff(float atk_buff) {
         this.atk_buff = atk_buff;
-    }
-    public void setMax_hp(float max_hp) {
-        this.max_hp = max_hp;
-    }
-    public void setMax_mp(float max_mp) {
-        this.max_mp = max_mp;
-    }
-    public void setMax_atk(float max_atk) {
-        this.max_atk = max_atk;
-    }
-    public void setMax_def(float max_def) {
-        this.max_def = max_def;
     }
     public void setLevel(int level) {
         this.level = level;

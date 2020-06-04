@@ -12,7 +12,8 @@ public class MyGdxGame extends Game {
 
     //-Properties:
     public AssetManager manager = new AssetManager();
-    public Json json = new Json();
+    public static Json json = new Json();
+    public static FileHandle fileHandle = new FileHandle("save_games/current.json");
     public static GameData gameData;
     public Player player;
 
@@ -83,33 +84,31 @@ public class MyGdxGame extends Game {
 
     // Get saved game (if exists)
     private void getMostRecentSavedGame() {
-        FileHandle fileHandle = new FileHandle("save_games/current.json");
-
         // If there is no 'current.json' save game file, we'll create a new one with default values
         if (!fileHandle.exists()) {
             gameData = new GameData();
 
-            // Set default values for new game
+            // Set default starting values for new game
             gameData.setMaximum_HP(10);
             gameData.setMaximum_MP(10);
             gameData.setMaximum_Attack(10);
             gameData.setPoints(0);
 
             // Save these values to 'current.json' file
-            saveCurrentGame(fileHandle);
+            saveCurrentGame();
         } else {
             // Load the most recently played game
-            loadCurrentGame(fileHandle);
+            loadCurrentGame();
         }
 
     }
 
-    public void loadCurrentGame(FileHandle fileHandle) {
+    public static void loadCurrentGame() {
         gameData = json.fromJson(GameData.class,
                 Base64Coder.decodeString(fileHandle.readString()));
     }
 
-    public void saveCurrentGame(FileHandle fileHandle) {
+    public static void saveCurrentGame() {
         if (gameData != null) {
             fileHandle.writeString(Base64Coder.encodeString(json.prettyPrint(gameData)),
                     false);

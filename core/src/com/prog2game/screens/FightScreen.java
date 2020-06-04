@@ -18,23 +18,17 @@ import com.prog2game.handlers.EventHandler;
 
 import java.util.Random;
 
-
 public class FightScreen implements Screen {
 
+    //-Properties:
     private final MyGdxGame parent;
     private Stage stage, stage2;
 
-    //texture
+    //Textures
     private SpriteBatch batch;
-    private Texture texture;
-    private Texture healthbar;
-    private Texture health;
-    private Texture black_bar;
-    private Texture enemy;
-    private Texture mana;
+    private Texture texture, healthbar, health, black_bar, enemy, mana;
 
-
-    //num
+    //Constants
     private float ene_hp_len = 0;
     private float hp_len = 0;
     private float mana_len = 0;
@@ -54,12 +48,10 @@ public class FightScreen implements Screen {
     private EventHandler eventHandler = new EventHandler();
     Random rand = new Random();
 
-
     //fonts
     private BitmapFont font;
     private BitmapFont font2;
     private String current_text = "yes";
-
 
     //window and skin
     Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
@@ -70,9 +62,9 @@ public class FightScreen implements Screen {
     private Player player = new Player();
     private Enemy enemy1 = new Enemy();
 
-
     public FightScreen(MyGdxGame myGdxGame) {
-        enemy1.rand_enemy(level);
+//        enemy1.rand_enemy(level);
+        enemy1 = new Enemy();
         batch = new SpriteBatch();
 
         mana = new Texture(Gdx.files.internal("image-other/mana.png"));
@@ -87,12 +79,9 @@ public class FightScreen implements Screen {
         font = new BitmapFont();
         font2 = new BitmapFont();
 
-
     }
 
-
-    //functions
-
+    //-Methods:
     public float Hover(float current_pos, float bob, float intensity) {
 
         if (current_pos < bob) {
@@ -105,10 +94,10 @@ public class FightScreen implements Screen {
 
     public void Enemy_spawn_check() {
         if (enemy1.getHp() <= 0) {
-            enemy1.rand_enemy(level);
+            enemy1 = new Enemy();
             enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
             level += 1;
-//            player.setHp(player.getMax_hp());
+//            player.setHp(player.getMax_hp()); // -TODO: Remove this line?
             enemy_turn = false;
 
             if (rand.nextFloat() >= 0.50) {
@@ -170,31 +159,23 @@ public class FightScreen implements Screen {
 
     }
 
-    public void Enemy_Attack() {
-
+    public void checkEnemyTurnToAttack() {
         if (enemy_turn) {
             enemy1.attack(player, 0, enemy1.getType(), enemy1.getCrit(), enemy1.getCrit_chance());
             enemy_turn = false;
         }
-
-
     }
 
-    public void player_death() {
-
+    public void checkPlayerDied() {
         if (player.getHp() <= 0) {
             player.setLevel(level);
-            player.write();
+            MyGdxGame.saveCurrentGame();
             parent.changeScreen(Screens.EndGameScreen);
-
         }
-
-
     }
 
 
     //This method will create a pop up
-
 
     @Override
     public void show() {
@@ -205,12 +186,10 @@ public class FightScreen implements Screen {
         table.left();
         stage.addActor(table);
 
-
         TextButton attack = new TextButton("Attack", skin);
         TextButton skills = new TextButton("Skills", skin);
         TextButton items = new TextButton("Items", skin);
         TextButton consumables = new TextButton("Potions", skin);
-
 
         consumables.addListener(new ChangeListener() {
             @Override
@@ -221,7 +200,7 @@ public class FightScreen implements Screen {
         attack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                dmg = player.attack(enemy1, 0, player.getType(), player.getCrit(), player.getCrit_chance());
+                player.attack(enemy1, 0);
                 total_dmg += dmg;
                 freq2 = 2f;
                 current_text = "You dealt:" + dmg;
@@ -243,9 +222,7 @@ public class FightScreen implements Screen {
         items.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
                 parent.changeScreen(Screens.MenuScreen);
-
             }
         });
 
@@ -308,7 +285,6 @@ public class FightScreen implements Screen {
         stage.addActor(item_window);
 
         ////////
-
         //knight window
 
         TextButton knight_skill_1 = new TextButton("Thrust", skin);
@@ -453,8 +429,8 @@ public class FightScreen implements Screen {
 
         //checkers
         Enemy_spawn_check();
-        Enemy_Attack();
-        player_death();
+        checkEnemyTurnToAttack();
+        checkPlayerDied();
 
         //
         ene_hp_len = AnimationHandler.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 700);
