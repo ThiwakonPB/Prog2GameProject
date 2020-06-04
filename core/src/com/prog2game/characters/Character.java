@@ -26,7 +26,7 @@ abstract class Character {
         this.type = Type.Normal;
     }
 
-    public Character(String name, float hp, float mp, float atk, float crit, float crit_chance, float def, String type) {
+    public Character(String name, float hp, float mp, float atk, float crit, float crit_chance, float def, Type type) {
         this.hp = hp;
         this.mp = mp;
         this.atk = atk;
@@ -41,7 +41,7 @@ abstract class Character {
     //-Methods:
 
     //simple attack function with a multiplier
-    public float attack(Character chr, float bonus, String type, float crit, float crit_chance) {
+    public float attack(Character chr, float bonus, Type type, float crit, float crit_chance) {
         Random r = new Random();
         float critical = 1;
         if (r.nextFloat() <= crit_chance) {
@@ -53,19 +53,19 @@ abstract class Character {
     }
 
     // this function will compare types and atk/def differences to determine a multiplier for dmg
-    public float multiplier_checker(Character chr, String type) {
+    public float multiplier_checker(Character chr, Type type) {
         float multiplier;
-        if (chr.type.equals("Normal") && type.equals("Armored")) {
+        if ((chr.type == Type.Normal) && (type == Type.Armored)) {
             multiplier = 0.5f;
-        } else if (chr.type.equals("Armored") && type.equals("Mystical")) {
+        } else if ((chr.type == Type.Armored) && (type == Type.Mystical)) {
             multiplier = 0.5f;
-        } else if (chr.type.equals("Mystical") && type.equals("Normal")) {
+        } else if ((chr.type == Type.Mystical) && (type == Type.Normal)) {
             multiplier = 0.5f;
-        } else if (chr.type.equals("Normal") && type.equals("Mystical")) {
+        } else if ((chr.type == Type.Normal) && (type == Type.Mystical)) {
             multiplier = -0.5f;
-        } else if (chr.type.equals("Mystical") && type.equals("Armored")) {
+        } else if ((chr.type == Type.Mystical) && (type == Type.Armored)) {
             multiplier = -0.5f;
-        } else if (chr.type.equals("Armored") && type.equals("Normal")) {
+        } else if ((chr.type == Type.Armored) && (type == Type.Normal)) {
             multiplier = -0.5f;
         } else {
             multiplier = 0f;

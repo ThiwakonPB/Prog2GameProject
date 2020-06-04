@@ -1,5 +1,5 @@
 package com.prog2game.characters;
 
 public enum Type {
-    Normal
+    Normal, Armored, Mystical
 }
