@@ -1,5 +1,12 @@
 package com.prog2game;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Player_ex extends Character {
 
 
@@ -13,12 +20,20 @@ public class Player_ex extends Character {
     private float max_crit = 2;
     private float max_crit_chance = 0.10f;
     private float atk_buff;
+    ArrayList<String> stats = new ArrayList<String>();
+
 
     private String type = "Normal";
 
 
     public Player_ex () {
         super();
+        read();
+        setMax_hp(Float.parseFloat(stats.get(0))*10);
+        setMax_mp(Float.parseFloat(stats.get(1)));
+        setMax_atk(Float.parseFloat(stats.get(2)));
+
+
         this.setHp(max_hp);
         this.setMp(max_mp);
         this.setAtk(max_atk);
@@ -89,7 +104,33 @@ public class Player_ex extends Character {
 
     }
 
+    public void read() {
+        try {
+            File myObj = new File("player_max_stats.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNext()) {
+                stats.add(myReader.next());
+                System.out.println(stats.toString());
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
+    public void write() {
+        int n = Integer.parseInt(stats.get(3)) + (this.level/5);
+        try {
+            FileWriter myWriter = new FileWriter("player_max_stats.txt");
+            myWriter.write(stats.get(0) + " " + stats.get(1) +" "+stats.get(2) + " " + Integer.toString(n));
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
 
 

@@ -30,7 +30,7 @@ public class Enemy extends Character {
         this.setCrit(enemies.get(n).getCrit());
         this.setCrit_chance(enemies.get(n).getCrit_chance());
         this.texture = (enemies.get(n).getTexture());
-        max_hp = enemies.get(n).getHp();
+        max_hp = enemies.get(n).getHp() + level*1.2f;
 
 
 
@@ -38,15 +38,15 @@ public class Enemy extends Character {
 
     public Enemy() {
         enemies.put(0, new Enemy("Goblin",100,7,1.5f,0.05f,10,"Normal","download.png"));
-        enemies.put(1, new Enemy("HammerHead",100,5,1.5f,0.05f,15,"Armored","download.png"));
+        enemies.put(1, new Enemy("HammerHead",100,5,1.5f,0.05f,15,"Armored","enemy1.png"));
         enemies.put(2, new Enemy("Killer",120,10,1.5f,0.05f,10,"Armored","download.png"));
-        enemies.put(3, new Enemy("Jakey",100,10,1.5f,0.05f,10,"Normal","download.png"));
-        enemies.put(4, new Enemy("Beat",111,10,1.5f,0.05f,10,"Normal","ghost.png"));
+        enemies.put(3, new Enemy("Jakey",100,10,1.5f,0.05f,10,"Normal","enemy3.png"));
+        enemies.put(4, new Enemy("Beat",110,10,1.5f,0.05f,10,"Normal","ghost.png"));
         enemies.put(5, new Enemy("Ming",130,10,1.5f,0.05f,10,"Armored","download.png"));
-        enemies.put(6, new Enemy("Dragon",110,10,1.5f,0.05f,10,"Armored","ghost.png"));
-        enemies.put(7, new Enemy("Monkey",130,10,1.5f,0.05f,10,"Armored","ghost.png"));
-        enemies.put(8, new Enemy("Fogot",100,10,1.5f,0.05f,10,"Normal","download.png"));
-        enemies.put(9, new Enemy("Yeti",130,10,1.5f,0.05f,10,"Normal","ghost.png"));
+        enemies.put(6, new Enemy("Dragon",101,10,1.5f,0.05f,10,"Armored","enemy5.png"));
+        enemies.put(7, new Enemy("Monkey",103,10,1.5f,0.05f,10,"Armored","enemy2.png"));
+        enemies.put(8, new Enemy("Fogot",100,10,1.5f,0.05f,10,"Normal","enemy4.png"));
+        enemies.put(9, new Enemy("Yeti",103,10,1.5f,0.05f,10,"Normal","ghost.png"));
         enemies.put(10, new Enemy("King Goblin",100,10,1.5f,0.05f,10,"Normal","download.png"));
     }
 

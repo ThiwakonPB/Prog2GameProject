@@ -36,6 +36,7 @@ public class MyGdxGame extends Game {
 
 			case MENU:
 				if(menuScreen == null) menuScreen = new MenuScreen(this);
+				menuScreen = new MenuScreen(this);
 				this.setScreen(menuScreen);
 				break;
 			case PREFERENCES:
@@ -44,18 +45,22 @@ public class MyGdxGame extends Game {
 				break;
 			case APPLICATION:
 				if(fightScreen == null) fightScreen = new FightScreen(this);
+				fightScreen = new FightScreen(this);
 				this.setScreen(fightScreen);
 				break;
 			case ENDGAME:
 				if(endScreen == null) endScreen = new EndScreen(this);
+				endScreen = new EndScreen(this);
 				this.setScreen(endScreen);
 				break;
 			case OPENING:
 				if( openingScreen== null) openingScreen = new Opening(this);
+				openingScreen = new Opening(this);
 				this.setScreen(openingScreen);
 				break;
 			case PREFIGHT:
 				if( preFightScreen== null) preFightScreen = new PreFightScreen(this);
+				preFightScreen = new PreFightScreen(this);
 				this.setScreen(preFightScreen);
 				break;
 
