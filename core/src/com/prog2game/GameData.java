@@ -1,4 +1,4 @@
-package com.prog2game.screens;
+package com.prog2game;
 
 public class GameData {
 

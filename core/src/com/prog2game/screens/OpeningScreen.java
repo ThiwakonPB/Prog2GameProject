@@ -14,14 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.prog2game.MyGdxGame;
 
-public class Opening implements Screen {
+public class OpeningScreen implements Screen {
 
     private Stage stage;
     private SpriteBatch batch;
     private Texture texture;
     private MyGdxGame parent;
     private float posy = -1800;
-    public Opening (MyGdxGame myGdxGame) {
+    public OpeningScreen(MyGdxGame myGdxGame) {
         parent = myGdxGame;
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("image-other/Opening_text.png"));
