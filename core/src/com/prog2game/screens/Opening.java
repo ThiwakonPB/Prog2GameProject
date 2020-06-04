@@ -24,7 +24,7 @@ public class Opening implements Screen {
     public Opening (MyGdxGame myGdxGame) {
         parent = myGdxGame;
         batch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("Opening_text.png"));
+        texture = new Texture(Gdx.files.internal("image-other/Opening_text.png"));
         stage = new Stage(new ScreenViewport());
 
     }

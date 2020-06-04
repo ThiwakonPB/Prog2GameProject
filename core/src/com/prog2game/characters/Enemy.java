@@ -15,45 +15,43 @@ public class Enemy extends com.prog2game.characters.Character {
 
 
     private String texture;
-    Map<Integer, Enemy> enemies = new HashMap<Integer, Enemy>();
-
+    Map<Integer, Enemy> enemies = new HashMap<>();
 
 
     public void rand_enemy(int level) {
 
         Random rand = new Random();
         int n = rand.nextInt(level);
-        this.setHp(enemies.get(n).getHp() + level*1.2f);
+        this.setHp(enemies.get(n).getHp() + level * 1.2f);
         this.setName(enemies.get(n).getName());
-        this.setAtk(enemies.get(n).getAtk()+ level*0.3f);
-        this.setDef(enemies.get(n).getDef()+ level*0.2f);
+        this.setAtk(enemies.get(n).getAtk() + level * 0.3f);
+        this.setDef(enemies.get(n).getDef() + level * 0.2f);
         this.setType(enemies.get(n).getType());
         this.setCrit(enemies.get(n).getCrit());
         this.setCrit_chance(enemies.get(n).getCrit_chance());
         this.texture = (enemies.get(n).getTexture());
-        max_hp = enemies.get(n).getHp() + level*1.2f;
-
+        max_hp = enemies.get(n).getHp() + level * 1.2f;
 
 
     }
 
     public Enemy() {
-        enemies.put(0, new Enemy("Goblin",100,7,1.5f,0.05f,10,"Normal","download.png"));
-        enemies.put(1, new Enemy("HammerHead",100,5,1.5f,0.05f,15,"Armored","enemy1.png"));
-        enemies.put(2, new Enemy("Killer",120,10,1.5f,0.05f,10,"Armored","download.png"));
-        enemies.put(3, new Enemy("Jakey",100,10,1.5f,0.05f,10,"Normal","enemy3.png"));
-        enemies.put(4, new Enemy("Beat",110,10,1.5f,0.05f,10,"Normal","ghost.png"));
-        enemies.put(5, new Enemy("Ming",130,10,1.5f,0.05f,10,"Armored","download.png"));
-        enemies.put(6, new Enemy("Dragon",101,10,1.5f,0.05f,10,"Armored","enemy5.png"));
-        enemies.put(7, new Enemy("Monkey",103,10,1.5f,0.05f,10,"Armored","enemy2.png"));
-        enemies.put(8, new Enemy("Fogot",100,10,1.5f,0.05f,10,"Normal","enemy4.png"));
-        enemies.put(9, new Enemy("Yeti",103,10,1.5f,0.05f,10,"Normal","ghost.png"));
-        enemies.put(10, new Enemy("King Goblin",100,10,1.5f,0.05f,10,"Normal","download.png"));
-        enemies.put(11, new Enemy("King Goblin",100,10,1.5f,0.05f,10,"Normal","download.png"));
+        enemies.put(0, new Enemy("Goblin", 100, 7, 1.5f, 0.05f, 10, "Normal", "enemies/download.png"));
+        enemies.put(1, new Enemy("HammerHead", 100, 5, 1.5f, 0.05f, 15, "Armored", "enemies/enemy1.png"));
+        enemies.put(2, new Enemy("Killer", 120, 10, 1.5f, 0.05f, 10, "Armored", "enemies/download.png"));
+        enemies.put(3, new Enemy("Jakey", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/enemy3.png"));
+        enemies.put(4, new Enemy("Beat", 110, 10, 1.5f, 0.05f, 10, "Normal", "enemies/ghost.png"));
+        enemies.put(5, new Enemy("Ming", 130, 10, 1.5f, 0.05f, 10, "Armored", "enemies/download.png"));
+        enemies.put(6, new Enemy("Dragon", 101, 10, 1.5f, 0.05f, 10, "Armored", "enemies/enemy5.png"));
+        enemies.put(7, new Enemy("Monkey", 103, 10, 1.5f, 0.05f, 10, "Armored", "enemies/enemy2.png"));
+        enemies.put(8, new Enemy("Fogot", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/enemy4.png"));
+        enemies.put(9, new Enemy("Yeti", 103, 10, 1.5f, 0.05f, 10, "Normal", "enemies/ghost.png"));
+        enemies.put(10, new Enemy("King Goblin", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/download.png"));
+        enemies.put(11, new Enemy("King Goblin", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/download.png"));
 
     }
 
-    public Enemy (String name,float hp,float atk,float crit,float crit_chance,float def,String type,String texture) {
+    public Enemy(String name, float hp, float atk, float crit, float crit_chance, float def, String type, String texture) {
 
         this.setHp(hp);
         this.setName(name);
@@ -74,6 +72,7 @@ public class Enemy extends com.prog2game.characters.Character {
     public void setTexture(String texture) {
         this.texture = texture;
     }
+
     public float getMax_hp() {
         return max_hp;
     }
@@ -105,6 +104,5 @@ public class Enemy extends com.prog2game.characters.Character {
     public void setMax_def(float max_def) {
         this.max_def = max_def;
     }
-
 
 }

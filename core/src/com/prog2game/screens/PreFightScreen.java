@@ -44,8 +44,8 @@ public class PreFightScreen implements Screen {
     public PreFightScreen(MyGdxGame myGdxGame) {
         parent = myGdxGame;
         batch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("logo2.png"));
-        castle_background = new Texture(Gdx.files.internal("prefight_background.jpg"));
+        texture = new Texture(Gdx.files.internal("image-other/logo2.png"));
+        castle_background = new Texture(Gdx.files.internal("backgrounds/prefight_background.jpg"));
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
         create_file();

@@ -27,8 +27,8 @@ public class MenuScreen implements Screen {
     public MenuScreen(MyGdxGame myGdxGame) {
         parent = myGdxGame;
         batch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("logo2.png"));
-        castle_background = new Texture(Gdx.files.internal("castle_2.png"));
+        texture = new Texture(Gdx.files.internal("image-other/logo2.png"));
+        castle_background = new Texture(Gdx.files.internal("backgrounds/castle_2.png"));
         stage = new Stage(new ScreenViewport());
 
 
