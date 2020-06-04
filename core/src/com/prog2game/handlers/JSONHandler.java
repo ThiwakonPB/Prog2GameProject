@@ -20,6 +20,7 @@ public class JSONHandler {
             if (entry.name().contains(".json")) {
                 // Add enemy type to enemies array
 
+                enemies.add(new Enemy());
             }
         }
 

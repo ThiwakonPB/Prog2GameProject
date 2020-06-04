@@ -4,6 +4,7 @@ import java.util.Random;
 
 abstract class Character {
 
+    //-Properties:
     private String name;
     private float hp;
     private float mp;
@@ -11,18 +12,18 @@ abstract class Character {
     private float def;
     private float crit;
     private float crit_chance;
-    private String type;
+    private Type type;
 
     private float poison, stun;
-
     private float status[];
 
+    //-Constructors:
     public Character() {
         this.hp = 100;
         this.mp = 100;
         this.atk = 10;
         this.def = 10;
-        this.type = "Normal";
+        this.type = Type.Normal;
     }
 
     public Character(String name, float hp, float mp, float atk, float crit, float crit_chance, float def, String type) {
@@ -36,6 +37,8 @@ abstract class Character {
         this.crit_chance = crit_chance;
 
     }
+
+    //-Methods:
 
     //simple attack function with a multiplier
     public float attack(Character chr, float bonus, String type, float crit, float crit_chance) {
@@ -78,73 +81,56 @@ abstract class Character {
     }
 
 
-    //Getters and setters
-
+    //-Getters:
     public float getCrit() {
         return crit;
     }
-
-    public void setCrit(float crit) {
-        this.crit = crit;
-    }
-
     public float getCrit_chance() {
         return crit_chance;
     }
-
-    public void setCrit_chance(float crit_chance) {
-        this.crit_chance = crit_chance;
-    }
-
-
     public float getHp() {
         return hp;
     }
-
-    public void setHp(float hp) {
-        this.hp = hp;
-    }
-
     public float getMp() {
         return mp;
     }
-
     public float getAtk() {
         return atk;
     }
-
     public float getDef() {
         return def;
     }
-
-    public String getType() {
+    public Type getType() {
         return type;
     }
-
-
-    public void setMp(float mp) {
-        this.mp = mp;
-    }
-
-    public void setAtk(float atk) {
-        this.atk = atk;
-    }
-
-    public void setDef(float def) {
-        this.def = def;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
 
+    //-Setters:
+    public void setCrit(float crit) {
+        this.crit = crit;
+    }
+    public void setCrit_chance(float crit_chance) {
+        this.crit_chance = crit_chance;
+    }
+    public void setHp(float hp) {
+        this.hp = hp;
+    }
+    public void setMp(float mp) {
+        this.mp = mp;
+    }
+    public void setAtk(float atk) {
+        this.atk = atk;
+    }
+    public void setDef(float def) {
+        this.def = def;
+    }
+    public void setType(Type type) {
+        this.type = type;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

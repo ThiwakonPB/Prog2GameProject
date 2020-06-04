@@ -12,22 +12,8 @@ public class Enemy extends Character {
 
     private String texture;
 
-    public void rand_enemy(int level) {
-
-        Random rand = new Random();
-        int n = rand.nextInt(level);
-        this.setHp(enemies.get(n).getHp() + level * 1.2f);
-        this.setName(enemies.get(n).getName());
-        this.setAtk(enemies.get(n).getAtk() + level * 0.3f);
-        this.setDef(enemies.get(n).getDef() + level * 0.2f);
-        this.setType(enemies.get(n).getType());
-        this.setCrit(enemies.get(n).getCrit());
-        this.setCrit_chance(enemies.get(n).getCrit_chance());
-        this.texture = (enemies.get(n).getTexture());
-        max_hp = enemies.get(n).getHp() + level * 1.2f;
-
-    }
-
+    //-Constructors:
+    public Enemy () {}
     public Enemy(String name, float hp, float atk, float crit, float crit_chance, float def, String type, String texture) {
 
         this.setHp(hp);
@@ -39,6 +25,23 @@ public class Enemy extends Character {
         this.setCrit_chance(crit_chance);
         this.texture = texture;
         this.max_hp = hp;
+    }
+
+    // This method will be moved later, and used to randomly generate enemies
+    public void rand_enemy(int level) {
+
+        Random rand = new Random();
+        int n = rand.nextInt(level);
+//        this.setHp(enemies.get(n).getHp() + level * 1.2f);
+//        this.setName(enemies.get(n).getName());
+//        this.setAtk(enemies.get(n).getAtk() + level * 0.3f);
+//        this.setDef(enemies.get(n).getDef() + level * 0.2f);
+//        this.setType(enemies.get(n).getType());
+//        this.setCrit(enemies.get(n).getCrit());
+//        this.setCrit_chance(enemies.get(n).getCrit_chance());
+//        this.texture = (enemies.get(n).getTexture());
+//        max_hp = enemies.get(n).getHp() + level * 1.2f;
+
     }
 
     //-Getters:
