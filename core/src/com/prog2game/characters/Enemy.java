@@ -1,21 +1,16 @@
 package com.prog2game.characters;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class Enemy extends Character {
 
     //-Properties:
-    private float max_hp = 100;
-    private float max_mp = 100;
-    private float max_atk = 10;
-    private float max_def = 10;
-    private String type = "Normal";
-
+    private float max_hp;
+    private float max_mp;
+    private float max_atk;
+    private float max_def;
 
     private String texture;
-    Map<Integer, Enemy> enemies = new HashMap<>();
 
     public void rand_enemy(int level) {
 
@@ -33,22 +28,6 @@ public class Enemy extends Character {
 
     }
 
-    public Enemy() {
-        enemies.put(0, new Enemy("Goblin", 100, 7, 1.5f, 0.05f, 10, "Normal", "enemies/download.png"));
-        enemies.put(1, new Enemy("HammerHead", 100, 5, 1.5f, 0.05f, 15, "Armored", "enemies/enemy1.png"));
-        enemies.put(2, new Enemy("Killer", 120, 10, 1.5f, 0.05f, 10, "Armored", "enemies/download.png"));
-        enemies.put(3, new Enemy("Jakey", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/enemy3.png"));
-        enemies.put(4, new Enemy("Beat", 110, 10, 1.5f, 0.05f, 10, "Normal", "enemies/ghost.png"));
-        enemies.put(5, new Enemy("Ming", 130, 10, 1.5f, 0.05f, 10, "Armored", "enemies/download.png"));
-        enemies.put(6, new Enemy("Dragon", 101, 10, 1.5f, 0.05f, 10, "Armored", "enemies/enemy5.png"));
-        enemies.put(7, new Enemy("Monkey", 103, 10, 1.5f, 0.05f, 10, "Armored", "enemies/enemy2.png"));
-        enemies.put(8, new Enemy("Fogot", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/enemy4.png"));
-        enemies.put(9, new Enemy("Yeti", 103, 10, 1.5f, 0.05f, 10, "Normal", "enemies/ghost.png"));
-        enemies.put(10, new Enemy("King Goblin", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/download.png"));
-        enemies.put(11, new Enemy("King Goblin", 100, 10, 1.5f, 0.05f, 10, "Normal", "enemies/download.png"));
-
-    }
-
     public Enemy(String name, float hp, float atk, float crit, float crit_chance, float def, String type, String texture) {
 
         this.setHp(hp);
@@ -62,45 +41,38 @@ public class Enemy extends Character {
         this.max_hp = hp;
     }
 
-
+    //-Getters:
+    public float getMax_hp() {
+        return max_hp;
+    }
+    public float getMax_mp() {
+        return max_mp;
+    }
+    public float getMax_atk() {
+        return max_atk;
+    }
+    public float getMax_def() {
+        return max_def;
+    }
     public String getTexture() {
         return texture;
     }
 
-    public void setTexture(String texture) {
-        this.texture = texture;
-    }
-
-    public float getMax_hp() {
-        return max_hp;
-    }
-
+    //-Setters:
     public void setMax_hp(float max_hp) {
         this.max_hp = max_hp;
     }
-
-    public float getMax_mp() {
-        return max_mp;
-    }
-
     public void setMax_mp(float max_mp) {
         this.max_mp = max_mp;
     }
-
-    public float getMax_atk() {
-        return max_atk;
-    }
-
     public void setMax_atk(float max_atk) {
         this.max_atk = max_atk;
     }
-
-    public float getMax_def() {
-        return max_def;
-    }
-
     public void setMax_def(float max_def) {
         this.max_def = max_def;
+    }
+    public void setTexture(String texture) {
+        this.texture = texture;
     }
 
 }

@@ -68,7 +68,7 @@ public class EndScreen implements Screen {
         restart.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(MyGdxGame.MENU);
+                parent.changeScreen(Screens.MenuScreen);
             }
         });
 

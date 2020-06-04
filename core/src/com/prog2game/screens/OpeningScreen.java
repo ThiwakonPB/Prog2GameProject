@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.prog2game.MyGdxGame;
+import com.prog2game.handlers.AnimationHandler;
 
 public class OpeningScreen implements Screen {
 
@@ -46,7 +47,7 @@ public class OpeningScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ///add code here to execute when this button is pressed
-                parent.changeScreen(MyGdxGame.PREFIGHT);
+                parent.changeScreen(Screens.PreFightScreen);
 
             }
         });
@@ -68,7 +69,7 @@ public class OpeningScreen implements Screen {
         stage.getBatch().draw(texture,0,posy,600,2000);
         stage.getBatch().end();
         stage.draw();
-        posy = MyGdxGame.scroll(posy,0,20);
+        posy = AnimationHandler.scroll(posy,0,20);
 
     }
 

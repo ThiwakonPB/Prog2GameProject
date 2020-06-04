@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.prog2game.MyGdxGame;
 import com.prog2game.characters.*;
+import com.prog2game.handlers.AnimationHandler;
 import com.prog2game.handlers.EventHandler;
 
 import java.util.Random;
@@ -184,7 +185,7 @@ public class FightScreen implements Screen {
         if (player.getHp() <= 0) {
             player.setLevel(level);
             player.write();
-            parent.changeScreen(MyGdxGame.ENDGAME);
+            parent.changeScreen(Screens.EndGameScreen);
 
         }
 
@@ -243,7 +244,7 @@ public class FightScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                parent.changeScreen(MyGdxGame.MENU);
+                parent.changeScreen(Screens.MenuScreen);
 
             }
         });
@@ -456,9 +457,9 @@ public class FightScreen implements Screen {
         player_death();
 
         //
-        ene_hp_len = MyGdxGame.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 700);
-        hp_len = MyGdxGame.scroll(hp_len, (player.getHp() / player.getMax_hp()) * 470, 300);
-        mana_len = MyGdxGame.scroll(mana_len, (player.getMp() / player.getMax_mp()) * 470, 300);
+        ene_hp_len = AnimationHandler.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 700);
+        hp_len = AnimationHandler.scroll(hp_len, (player.getHp() / player.getMax_hp()) * 470, 300);
+        mana_len = AnimationHandler.scroll(mana_len, (player.getMp() / player.getMax_mp()) * 470, 300);
         freq -= Gdx.graphics.getDeltaTime();
         freq2 -= Gdx.graphics.getDeltaTime();
         if (num2 < total_dmg) {

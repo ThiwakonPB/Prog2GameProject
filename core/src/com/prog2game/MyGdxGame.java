@@ -16,21 +16,27 @@ public class MyGdxGame extends Game {
 
     public GameData gameData;
     public Player player;
+    
 
 //    private LoadingScreen loadingScreen;
-//    private PreferencesScreen preferencesScreen;
-//    private MenuScreen menuScreen;
-//    private FightScreen fightScreen;
-//    private EndScreen endScreen;
-//    private OpeningScreen openingScreen;
-//    private PreFightScreen preFightScreen;
+    private PreferencesScreen preferencesScreen;
+    private MenuScreen menuScreen;
+    private FightScreen fightScreen;
+    private EndScreen endScreen;
+    private OpeningScreen openingScreen;
+    private PreFightScreen preFightScreen;
+
+    private Screen currentScreen;
 
     //-Methods:
     @Override
     public void create() {
+        // Game is launched, check first for latest save game file:
+        getMostRecentSavedGame();
+
         //-TODO: Consider removing this, since we don't really use a loading screen for anything
-        loadingScreen = new LoadingScreen(this);
-        setScreen(loadingScreen);
+        currentScreen = new LoadingScreen(this);
+        setScreen(currentScreen);
     }
 
     // Method used to switch between screen objects
@@ -71,6 +77,9 @@ public class MyGdxGame extends Game {
                 break;
 
         }
+
+        // Outputs all the 'save game' file
+        System.out.println("Stuff:" + gameData.getMaximum_HP() + " " + gameData.getMaximum_MP() + " " + gameData.getMaximum_Attack() + " " + gameData.getPoints());
     }
 
     // Get saved game (if exists)
@@ -88,20 +97,20 @@ public class MyGdxGame extends Game {
             gameData.setPoints(0);
 
             // Save these values to 'current.json' file
-            saveCurrentGame(gameData);
+            saveCurrentGame(fileHandle);
         } else {
             // Load the most recently played game
-            loadCurrentGame(gameData);
+            loadCurrentGame(fileHandle);
         }
 
     }
 
-    public void loadCurrentGame(GameData gameData, FileHandle fileHandle) {
+    public void loadCurrentGame(FileHandle fileHandle) {
         gameData = json.fromJson(GameData.class,
                 Base64Coder.decodeString(fileHandle.readString()));
     }
 
-    public void saveCurrentGame(GameData gameData, FileHandle fileHandle) {
+    public void saveCurrentGame(FileHandle fileHandle) {
         if (gameData != null) {
             fileHandle.writeString(Base64Coder.encodeString(json.prettyPrint(gameData)),
                     false);
