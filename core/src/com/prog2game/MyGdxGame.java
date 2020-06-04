@@ -58,16 +58,16 @@ public class MyGdxGame extends Game {
 	}
 
 	/// Will in/decrease a position x or y till determine pos
-	public static float scroll (float pos,float destination,float speed){
+	public static float scroll (float startingPosition, float finalPosition, float scrollSpeed){
 
 		float delta_1 = Gdx.graphics.getDeltaTime();
-		if (pos < destination){
-			pos += delta_1 * speed;
+		if (startingPosition < finalPosition){
+			startingPosition += delta_1 * scrollSpeed;
 		}
-		else if (pos > destination + 1){
-			pos -= delta_1 * speed;
+		else if (startingPosition > finalPosition + 1){
+			startingPosition -= delta_1 * scrollSpeed;
 		}
-		return pos;
+		return startingPosition;
 	}
 
 }
