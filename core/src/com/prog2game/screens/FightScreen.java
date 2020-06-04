@@ -1,4 +1,4 @@
-package com.prog2game;
+package com.prog2game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.prog2game.MyGdxGame;
+import com.prog2game.characters.*;
+import com.prog2game.handlers.EventHandler;
+
 import java.util.Random;
 
 
@@ -47,8 +50,8 @@ public class FightScreen implements Screen   {
     boolean enemy_turn = false;
     private boolean consumable = false;
     private boolean knight_visible = false;
-    private Events events = new Events();
-    Random r = new Random();
+    private EventHandler eventHandler = new EventHandler();
+    Random rand = new Random();
 
 
     //fonts
@@ -63,7 +66,7 @@ public class FightScreen implements Screen   {
     Window knight_skills = new Window("Knight",skin);
 
     //characters
-    private Player_ex player = new Player_ex();
+    private Player player = new Player();
     private Enemy enemy1 = new Enemy();
 
 
@@ -113,7 +116,7 @@ public class FightScreen implements Screen   {
 //            player.setHp(player.getMax_hp());
             enemy_turn = false;
 
-            if (r.nextFloat() >= 0.50 ){
+            if (rand.nextFloat() >= 0.50 ){
                 current_text = "You Found some potions!";
                 player.setM_pot(player.getM_pot() + 1);
                 player.setH_pot(player.getH_pot() + 1);
@@ -121,14 +124,14 @@ public class FightScreen implements Screen   {
             }
 
             //events
-            if (r.nextFloat() <= 0.15){
-                events = new Events();
-                Events.Knight knight = new Events.Knight("",skin) {
+            if (rand.nextFloat() <= 0.15){
+                eventHandler = new EventHandler();
+                EventHandler.Knight knight = new EventHandler.Knight("",skin) {
                     public void result(Object obj) {
                         switch (Integer.parseInt(obj.toString())){
 
                             case 0:
-                                if (r.nextFloat() <= 0.80){
+                                if (rand.nextFloat() <= 0.80){
                                     current_text = "It was poison!";
                                     player.setHp(player.getHp() - (player.getHp() - 1));
                                 }
@@ -138,7 +141,7 @@ public class FightScreen implements Screen   {
                                 }
                                 break;
                             case 1:
-                                if (r.nextFloat() <= 0.5){
+                                if (rand.nextFloat() <= 0.5){
                                     current_text = "It was a trap!!";
                                     player.setHp(player.getHp()*0.8f);
                                 }

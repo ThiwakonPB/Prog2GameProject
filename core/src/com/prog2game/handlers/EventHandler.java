@@ -1,4 +1,4 @@
-package com.prog2game;
+package com.prog2game.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.Random;
 
-public class Events {
+public class EventHandler {
 
     Skin skin = new Skin(Gdx.files.internal("skin/Holo-dark-hdpi.json"));
     public static class Knight extends Dialog {
