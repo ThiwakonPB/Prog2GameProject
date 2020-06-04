@@ -37,7 +37,7 @@ public class PreFightScreen implements Screen {
     private int max_atk = 10;
     private int points = 5;
     private String select_class;
-    ArrayList<String> stats = new ArrayList<String>();
+    ArrayList<String> stats = new ArrayList<>();
     private BitmapFont font;
 
     //-Constructors:
@@ -55,11 +55,7 @@ public class PreFightScreen implements Screen {
         max_atk = Integer.parseInt(stats.get(2));
         points = Integer.parseInt(stats.get(3));
 
-
-
-
     }
-
 
 
     public void create_file () {
@@ -123,11 +119,6 @@ public class PreFightScreen implements Screen {
         }
         return stat;
     }
-
-
-
-
-
 
 
     //-Methods:
@@ -205,7 +196,7 @@ public class PreFightScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 write();
-                parent.changeScreen(MyGdxGame.APPLICATION);
+                parent.changeScreen(MyGdxGame.FIGHTSCREEN);
             }
         });
 

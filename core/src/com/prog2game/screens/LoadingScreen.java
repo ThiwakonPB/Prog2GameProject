@@ -1,7 +1,7 @@
 package com.prog2game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.prog2game.MyGdxGame;
+import com.prog2game.*;
 
 public class LoadingScreen implements Screen {
 
@@ -20,7 +20,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        parent.changeScreen(MyGdxGame.MENU);
+        parent.changeScreen(Screen.MenuScreen);
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.prog2game.MyGdxGame;
+import com.prog2game.handlers.AnimationHandler;
 
 public class MenuScreen implements Screen {
 
@@ -49,7 +50,7 @@ public class MenuScreen implements Screen {
 //        t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 //        TextureRegion playbuttonregion = new TextureRegion(t, 0, 0, 50, 50);
 //        Image buttonm = new Image(playbuttonregion);
-        ///Create the button objects to use later
+//        Create the button objects to use later
       final TextButton newGame = new TextButton("Start", skin);
       TextButton preferences = new TextButton("Settings", skin);
       TextButton exit = new TextButton("Exit", skin);
@@ -103,8 +104,8 @@ public class MenuScreen implements Screen {
         stage.getBatch().end();
 
         stage.draw();
-        t_posY = MyGdxGame.scroll(t_posY, 300, 100);
-        b_posY = MyGdxGame.scroll(b_posY, -250, 50);
+        t_posY = AnimationHandler.scroll(t_posY, 300, 100);
+        b_posY = AnimationHandler.scroll(b_posY, -250, 50);
 
     }
 

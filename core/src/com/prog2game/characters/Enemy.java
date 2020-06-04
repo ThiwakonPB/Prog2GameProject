@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class Enemy extends com.prog2game.characters.Character {
+public class Enemy extends Character {
 
     //-Properties:
     private float max_hp = 100;
@@ -16,7 +16,6 @@ public class Enemy extends com.prog2game.characters.Character {
 
     private String texture;
     Map<Integer, Enemy> enemies = new HashMap<>();
-
 
     public void rand_enemy(int level) {
 
@@ -31,7 +30,6 @@ public class Enemy extends com.prog2game.characters.Character {
         this.setCrit_chance(enemies.get(n).getCrit_chance());
         this.texture = (enemies.get(n).getTexture());
         max_hp = enemies.get(n).getHp() + level * 1.2f;
-
 
     }
 
