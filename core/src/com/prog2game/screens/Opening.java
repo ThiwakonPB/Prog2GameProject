@@ -29,7 +29,7 @@ public class Opening implements Screen {
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("Opening_text.png"));
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+
     }
 
 
@@ -49,7 +49,7 @@ public class Opening implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ///add code here to execute when this button is pressed
-                parent.changeScreen(MyGdxGame.APPLICATION);
+                parent.changeScreen(MyGdxGame.PREFIGHT);
 
             }
         });
@@ -63,7 +63,7 @@ public class Opening implements Screen {
 
     @Override
     public void render(float delta) {
-
+        Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -97,6 +97,6 @@ public class Opening implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }
