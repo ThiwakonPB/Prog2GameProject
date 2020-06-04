@@ -196,7 +196,7 @@ public class PreFightScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 write();
-                parent.changeScreen(MyGdxGame.FIGHTSCREEN);
+                parent.changeScreen(Screens.FightScreen);
             }
         });
 
