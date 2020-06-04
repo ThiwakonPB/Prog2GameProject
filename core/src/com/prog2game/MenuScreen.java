@@ -60,7 +60,7 @@ public class MenuScreen implements Screen {
           @Override
           public void changed(ChangeEvent event, Actor actor) {
               ///add code here to execute when this button is pressed
-              parent.changeScreen(MyGdxGame.PREFIGHT);
+              parent.changeScreen(MyGdxGame.OPENING);
 
           }
       });

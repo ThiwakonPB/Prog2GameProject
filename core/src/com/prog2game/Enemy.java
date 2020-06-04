@@ -48,6 +48,8 @@ public class Enemy extends Character {
         enemies.put(8, new Enemy("Fogot",100,10,1.5f,0.05f,10,"Normal","enemy4.png"));
         enemies.put(9, new Enemy("Yeti",103,10,1.5f,0.05f,10,"Normal","ghost.png"));
         enemies.put(10, new Enemy("King Goblin",100,10,1.5f,0.05f,10,"Normal","download.png"));
+        enemies.put(11, new Enemy("King Goblin",100,10,1.5f,0.05f,10,"Normal","download.png"));
+
     }
 
     public Enemy (String name,float hp,float atk,float crit,float crit_chance,float def,String type,String texture) {

@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
 import java.util.Random;
 
 
@@ -84,9 +83,6 @@ public class FightScreen implements Screen   {
         stage2 = new Stage();
         font = new BitmapFont();
         font2 = new BitmapFont();
-
-
-
 
 
     }
@@ -162,10 +158,6 @@ public class FightScreen implements Screen   {
                             default:
                                 current_text = "You ignored the event";
                                 break;
-
-
-
-
 
                         }
 
@@ -268,9 +260,8 @@ public class FightScreen implements Screen   {
         items.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+
                 parent.changeScreen(MyGdxGame.MENU);
-
-
 
             }
         });
@@ -507,6 +498,7 @@ public class FightScreen implements Screen   {
             num2 += 60*Gdx.graphics.getDeltaTime();
         }
         item_window.setVisible(consumable);
+
         knight_skills.setVisible(knight_visible);
 
 
