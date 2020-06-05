@@ -18,34 +18,30 @@ abstract class Character {
     private float crit_chance;
     private Type type;
 
-    //-TODO: Remove these unused properties (Ask Jero about these first)
-//    private float poison, stun;
-//    private float status[]; // What is this for?
-
     //-Constructors:
     public Character() {
         this.name = "Generic";
         this.hp = 100;
-        this.mp = 100;
+//        this.mp = 100; // Currently Enemy has no MP. TODO: Move MP to character instead of Player
         this.atk = 10;
         this.def = 10;
         this.max_hp = 100;
-        this.max_mp = 100;
+//        this.max_mp = 100; // Currently Enemy has no MP. TODO: Move MP to character instead of Player
         this.max_atk = 10;
         this.max_def = 10;
-        this.crit = 5; //-TODO: Is this a good default number? (JERO)
-        this.crit_chance = 5; //-TODO: Is this a good default number? (JERO)
+        this.crit = 2;
+        this.crit_chance = 0.15f;
         this.type = Type.Normal;
     }
 
-    public Character(String name, float hp, float mp, float atk, float def, float max_hp, float max_mp, float max_atk, float max_def, float crit, float crit_chance, Type type) {
+    public Character(String name, float max_hp, float max_atk, float max_def, float crit, float crit_chance, Type type) {
         this.name = name;
-        this.hp = hp;
-        this.mp = mp;
-        this.atk = atk;
-        this.def = def;
+        this.hp = max_hp;
+//        this.mp = max_mp; // Currently Enemy has no MP. TODO: Move MP to character instead of Player
+        this.atk = max_atk;
+        this.def = max_def;
         this.max_hp = max_hp;
-        this.max_mp = max_mp;
+//        this.max_mp = max_mp; // Currently Enemy has no MP. TODO: Move MP to character instead of Player
         this.max_atk = max_atk;
         this.max_def = max_def;
         this.crit = crit;
@@ -54,7 +50,7 @@ abstract class Character {
     }
 
     //-Methods:
-    public float attack(Character characterToAttack, float bonus) {
+    public void attack(Character characterToAttack, float bonus) {
         Random r = new Random();
         float critical = 1;
         if (r.nextFloat() <= this.crit_chance) {
@@ -62,7 +58,7 @@ abstract class Character {
         }
         float random = (float) ((this.atk * 0.8) + r.nextFloat() * ((this.atk / 0.8) - (this.atk * 0.8)));
         characterToAttack.setHp(characterToAttack.getHp() - (critical * (bonus + random) * multiplier_checker(characterToAttack, type)));
-        return (critical * ((bonus + random) * multiplier_checker(characterToAttack, type)));
+//        return (critical * ((bonus + random) * multiplier_checker(characterToAttack, type)));
     }
 
     // this function will compare types and atk/def differences to determine a multiplier for damage

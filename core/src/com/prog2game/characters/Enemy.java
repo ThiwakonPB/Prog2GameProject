@@ -6,9 +6,9 @@ public class Enemy extends Character {
     private String texture;
 
     //-Constructors:
-    public Enemy () { super(); }
-    public Enemy(String name, float hp, float mp, float atk, float def, float max_hp, float max_mp, float max_atk, float max_def, float crit, float crit_chance, Type type, String texture) {
-        super(name, hp, mp, atk, def, max_hp, max_mp, max_atk, max_def, crit, crit_chance, type);
+    public Enemy () { super(); } // Don't use this (DEBUG ONLY) .. TODO: Remove this constructor
+    public Enemy(String name, float max_hp, float max_atk, float max_def, float crit, float crit_chance, Type type, String texture) {
+        super(name, max_hp, max_atk, max_def, crit, crit_chance, type);
         this.texture = texture;
     }
 

@@ -2,6 +2,7 @@ package com.prog2game;
 
 public class GameData {
 
+    //-Properties:
     private int maximum_HP;
     private int maximum_MP;
     private int maximum_Attack;
@@ -18,7 +19,5 @@ public class GameData {
     public void setMaximum_MP(int maximum_MP) { this.maximum_MP = maximum_MP; }
     public void setMaximum_Attack(int maximum_Attack) { this.maximum_Attack = maximum_Attack; }
     public void setPoints(int points) { this.points = points; }
-
-
 
 }

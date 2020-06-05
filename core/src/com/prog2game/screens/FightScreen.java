@@ -161,7 +161,7 @@ public class FightScreen implements Screen {
 
     public void checkEnemyTurnToAttack() {
         if (enemy_turn) {
-            enemy1.attack(player, 0, enemy1.getType(), enemy1.getCrit(), enemy1.getCrit_chance());
+            enemy1.attack(player, 0);
             enemy_turn = false;
         }
     }
@@ -304,7 +304,7 @@ public class FightScreen implements Screen {
                 if (player.getMp() >= 2) {
                     player.setMp(player.getMp() - 2);
                     freq2 = 2f;
-                    dmg = player.Sword_swing(enemy1);
+                    player.Sword_swing(enemy1);
                     total_dmg += dmg;
                     current_text = "Sword Thrust! " + dmg + "\nArmor decrease";
                 } else {
@@ -319,7 +319,7 @@ public class FightScreen implements Screen {
                 if (player.getMp() >= 3) {
                     player.setMp(player.getMp() - 3);
                     freq2 = 2f;
-                    dmg = player.Sword_Strike(enemy1);
+                    player.Sword_Strike(enemy1);
                     total_dmg += dmg;
                     current_text = "Sword Strike! " + dmg;
                 } else {

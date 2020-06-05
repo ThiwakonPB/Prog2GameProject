@@ -18,7 +18,7 @@ public class MyGdxGame extends Game {
     public Player player;
 
 
-//    private LoadingScreen loadingScreen;
+    // private LoadingScreen loadingScreen;
     private PreferencesScreen preferencesScreen;
     private MenuScreen menuScreen;
     private FightScreen fightScreen;

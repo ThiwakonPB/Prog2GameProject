@@ -2,13 +2,6 @@ package com.prog2game.characters;
 
 import com.prog2game.MyGdxGame;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Player extends Character {
 
     //-Properties:
@@ -19,18 +12,22 @@ public class Player extends Character {
     private float max_crit_chance = 0.10f;
     private float atk_buff;
 
+    //TODO: Move these properties to Character class
+    private float mp;
+    private float max_mp;
+
     //-Constructors:
     public Player() {
-
         super();
+        this.mp = 100;
+        this.max_mp = 100;
         setName("Player");
-        setMax_hp(MyGdxGame.gameData.getMaximum_HP() * 10);
+        setMax_hp(MyGdxGame.gameData.getMaximum_HP());
         setMax_mp(MyGdxGame.gameData.getMaximum_MP());
         setMax_atk(MyGdxGame.gameData.getMaximum_Attack());
         setType(Type.Normal);
         setCrit(max_crit);
         setCrit_chance(max_crit_chance);
-
     }
 
     //-Public Methods:
@@ -71,12 +68,6 @@ public class Player extends Character {
         }
     }
 
-    //-TODO: Ask Jero what this 'n' is supposed to do in this code:
-    //      {
-    //       int n = Integer.parseInt(stats.get(3)) + (this.level / 5);
-    //       myWriter.write(stats.get(0) + " " + stats.get(1) + " " + stats.get(2) + " " + Integer.toString(n));
-    //      }
-
     //-Getters:
     public float getMax_crit() {
         return max_crit;
@@ -115,6 +106,21 @@ public class Player extends Character {
     }
     public void setM_pot(int m_pot) {
         this.m_pot = m_pot;
+    }
+
+    //-Extra:
+    //TODO: These getter/setters will be moved to Character once they're implemented in the Enemy class
+    public float getMp() {
+        return mp;
+    }
+    public float getMax_mp() {
+        return max_mp;
+    }
+    public void setMp(float mp) {
+        this.mp = mp;
+    }
+    public void setMax_mp(float max_mp) {
+        this.max_mp = max_mp;
     }
 
 }
