@@ -40,18 +40,15 @@ public class Player extends Character {
             attack(chr, getAtk() * 1.2f);
         }
     }
-
     public void Sword_Strike(Character chr) {
         attack(chr, getAtk() * 1.5f);
     }
-
     public String Atk_buff() {
 
         this.setAtk(getMax_atk() * 1.2f);
         this.atk_buff = 3;
         return "20% buff active";
     }
-
     public void Mana_regen() {
         if (getMp() < getMax_mp() * 0.75) {
             setMp(getMp() + getMax_mp() / 4);
@@ -59,7 +56,6 @@ public class Player extends Character {
             setMp(getMax_mp());
         }
     }
-
     public void Health_regen() {
         if (getHp() < (getMax_hp() * 0.75)) {
             setHp(getHp() + (getMax_hp() / 4));

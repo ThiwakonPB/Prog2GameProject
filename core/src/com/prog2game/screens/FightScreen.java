@@ -26,7 +26,7 @@ public class FightScreen implements Screen {
 
     //Textures
     private SpriteBatch batch;
-    private Texture texture, healthbar, health, black_bar, enemy, mana;
+    private Texture texture, healthbar, health, black_bar, mana;
 
     //Constants
     private float ene_hp_len = 0;
@@ -35,7 +35,7 @@ public class FightScreen implements Screen {
     private float hover = 200;
     private float freq;
     private float freq2;
-    private float dmg;
+    private float dmg; // todo: remove this
     private float total_dmg;
     private int level = 1;
     float y = 300;
@@ -45,7 +45,7 @@ public class FightScreen implements Screen {
     boolean enemy_turn = false;
     private boolean consumable = false;
     private boolean knight_visible = false;
-    private EventHandler eventHandler = new EventHandler();
+    private EventHandler eventHandler = new EventHandler(); // ?
     Random rand = new Random();
 
     //fonts
@@ -59,12 +59,13 @@ public class FightScreen implements Screen {
     Window knight_skills = new Window("Knight", skin);
 
     //characters
-    private Player player = new Player();
-    private Enemy enemy1 = new Enemy();
+//    private Player player = new Player();
+    private Enemy enemy;
 
     public FightScreen(MyGdxGame myGdxGame) {
-//        enemy1.rand_enemy(level);
-        enemy1 = new Enemy();
+        parent = myGdxGame;
+
+        enemy = new Enemy();
         batch = new SpriteBatch();
 
         mana = new Texture(Gdx.files.internal("image-other/mana.png"));
@@ -72,13 +73,12 @@ public class FightScreen implements Screen {
         healthbar = new Texture(Gdx.files.internal("image-other/health_back.png"));
         health = new Texture(Gdx.files.internal("image-other/health.png"));
         black_bar = new Texture(Gdx.files.internal("image-other/black.png"));
-        enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
-        parent = myGdxGame;
+
         stage = new Stage(new ScreenViewport());
         stage2 = new Stage();
+
         font = new BitmapFont();
         font2 = new BitmapFont();
-
     }
 
     //-Methods:
@@ -93,17 +93,16 @@ public class FightScreen implements Screen {
     }
 
     public void Enemy_spawn_check() {
-        if (enemy1.getHp() <= 0) {
-            enemy1 = new Enemy();
-            enemy = new Texture(Gdx.files.internal(enemy1.getTexture()));
+        if (enemy.getHp() <= 0) {
+            enemy = new Enemy();
             level += 1;
 //            player.setHp(player.getMax_hp()); // -TODO: Remove this line?
             enemy_turn = false;
 
             if (rand.nextFloat() >= 0.50) {
                 current_text = "You Found some potions!";
-                player.setM_pot(player.getM_pot() + 1);
-                player.setH_pot(player.getH_pot() + 1);
+                MyGdxGame.player.setM_pot(MyGdxGame.player.getM_pot() + 1);
+                MyGdxGame.player.setH_pot(MyGdxGame.player.getH_pot() + 1);
 
             }
 
@@ -113,22 +112,21 @@ public class FightScreen implements Screen {
                 EventHandler.Knight knight = new EventHandler.Knight("", skin) {
                     public void result(Object obj) {
                         switch (Integer.parseInt(obj.toString())) {
-
                             case 0:
                                 if (rand.nextFloat() <= 0.80) {
                                     current_text = "It was poison!";
-                                    player.setHp(player.getHp() - (player.getHp() - 1));
+                                    MyGdxGame.player.setHp(MyGdxGame.player.getHp() - (MyGdxGame.player.getHp() - 1));
                                 } else {
                                     current_text = "It was a Strength potion!";
-                                    player.setAtk(player.getAtk() + 5);
+                                    MyGdxGame.player.setAtk(MyGdxGame.player.getAtk() + 5);
                                 }
                                 break;
                             case 1:
                                 if (rand.nextFloat() <= 0.5) {
                                     current_text = "It was a trap!!";
-                                    player.setHp(player.getHp() * 0.8f);
+                                    MyGdxGame.player.setHp(MyGdxGame.player.getHp() * 0.8f);
                                 } else {
-                                    player.setAtk(player.getAtk() + 2);
+                                    MyGdxGame.player.setAtk(MyGdxGame.player.getAtk() + 2);
                                 }
                                 break;
                             case 2:
@@ -143,10 +141,7 @@ public class FightScreen implements Screen {
                             default:
                                 current_text = "You ignored the event";
                                 break;
-
                         }
-
-
                     }
                 };
                 knight.show(stage);
@@ -161,22 +156,20 @@ public class FightScreen implements Screen {
 
     public void checkEnemyTurnToAttack() {
         if (enemy_turn) {
-            enemy1.attack(player, 0);
+            enemy.attack(MyGdxGame.player, 0);
             enemy_turn = false;
         }
     }
 
     public void checkPlayerDied() {
-        if (player.getHp() <= 0) {
-            player.setLevel(level);
+        if (MyGdxGame.player.getHp() <= 0) {
+            MyGdxGame.player.setLevel(level);
             MyGdxGame.saveCurrentGame();
             parent.changeScreen(Screens.EndGameScreen);
         }
     }
 
-
     //This method will create a pop up
-
     @Override
     public void show() {
         Table table = new Table();
@@ -200,23 +193,21 @@ public class FightScreen implements Screen {
         attack.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                player.attack(enemy1, 0);
+                MyGdxGame.player.attack(enemy, 0);
                 total_dmg += dmg;
                 freq2 = 2f;
                 current_text = "You dealt:" + dmg;
                 enemy_turn = true;
-                if (player.getMp() < player.getMax_mp() * 0.95f) {
-                    player.setMp(player.getMp() + player.getMax_mp() * 0.05f);
+                if (MyGdxGame.player.getMp() < MyGdxGame.player.getMax_mp() * 0.95f) {
+                    MyGdxGame.player.setMp(MyGdxGame.player.getMp() + MyGdxGame.player.getMax_mp() * 0.05f);
                 } else {
-                    player.setMp(player.getMax_mp());
+                    MyGdxGame.player.setMp(MyGdxGame.player.getMax_mp());
                 }
-                if (player.getAtk_buff() <= 0) {
-                    player.setAtk(player.getMax_atk());
+                if (MyGdxGame.player.getAtk_buff() <= 0) {
+                    MyGdxGame.player.setAtk(MyGdxGame.player.getMax_atk());
                 } else {
-                    player.setAtk_buff(player.getAtk_buff() - 1);
+                    MyGdxGame.player.setAtk_buff(MyGdxGame.player.getAtk_buff() - 1);
                 }
-
-
             }
         });
         items.addListener(new ChangeListener() {
@@ -252,9 +243,9 @@ public class FightScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                if (player.getH_pot() > 0) {
-                    player.Health_regen();
-                    player.setH_pot(player.getH_pot() - 1);
+                if (MyGdxGame.player.getH_pot() > 0) {
+                    MyGdxGame.player.Health_regen();
+                    MyGdxGame.player.setH_pot(MyGdxGame.player.getH_pot() - 1);
                 } else {
                     current_text = "You're out of HP pots!";
                 }
@@ -264,9 +255,9 @@ public class FightScreen implements Screen {
         mana_pot.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (player.getM_pot() > 0) {
-                    player.Mana_regen();
-                    player.setM_pot(player.getM_pot() - 1);
+                if (MyGdxGame.player.getM_pot() > 0) {
+                    MyGdxGame.player.Mana_regen();
+                    MyGdxGame.player.setM_pot(MyGdxGame.player.getM_pot() - 1);
                 } else {
                     current_text = "You're out of MP pots!";
                 }
@@ -301,10 +292,10 @@ public class FightScreen implements Screen {
         knight_skill_1.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (player.getMp() >= 2) {
-                    player.setMp(player.getMp() - 2);
+                if (MyGdxGame.player.getMp() >= 2) {
+                    MyGdxGame.player.setMp(MyGdxGame.player.getMp() - 2);
                     freq2 = 2f;
-                    player.Sword_swing(enemy1);
+                    MyGdxGame.player.Sword_swing(enemy);
                     total_dmg += dmg;
                     current_text = "Sword Thrust! " + dmg + "\nArmor decrease";
                 } else {
@@ -316,10 +307,10 @@ public class FightScreen implements Screen {
         knight_skill_2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (player.getMp() >= 3) {
-                    player.setMp(player.getMp() - 3);
+                if (MyGdxGame.player.getMp() >= 3) {
+                    MyGdxGame.player.setMp(MyGdxGame.player.getMp() - 3);
                     freq2 = 2f;
-                    player.Sword_Strike(enemy1);
+                    MyGdxGame.player.Sword_Strike(enemy);
                     total_dmg += dmg;
                     current_text = "Sword Strike! " + dmg;
                 } else {
@@ -331,9 +322,9 @@ public class FightScreen implements Screen {
         knight_skill_3.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (player.getMp() >= 2) {
-                    player.setMp(player.getMp() - 2);
-                    current_text = player.Atk_buff();
+                if (MyGdxGame.player.getMp() >= 2) {
+                    MyGdxGame.player.setMp(MyGdxGame.player.getMp() - 2);
+                    current_text = MyGdxGame.player.Atk_buff();
                 } else {
                     current_text = "Not enought mana!";
                 }
@@ -370,7 +361,7 @@ public class FightScreen implements Screen {
         stage.getBatch().draw(mana, 155, 95 - 8, mana_len, 20);    //mana
 
         //enemy sprite and healthbar
-        stage.getBatch().draw(enemy, 250, hover, 200, 200);
+        stage.getBatch().draw(enemy.getTexture(), 250, hover, 200, 200);
         stage.getBatch().draw(healthbar, -50, 418, 600, 80);
         stage.getBatch().draw(health, 0, 450, ene_hp_len, 20);
         stage.getBatch().end();
@@ -384,18 +375,18 @@ public class FightScreen implements Screen {
         batch.begin();
         // Put anything text related you want to render here
         font.draw(batch, current_text, 450, 60);
-        font.draw(batch, enemy1.getName(), 30, 467);
-        font.draw(batch, enemy1.getType().toString(), 130, 467);
-        font.draw(batch, Float.toString(enemy1.getHp()), 200, 467);
-        font.draw(batch, "Armor: " + enemy1.getDef(), 300, 467);
+        font.draw(batch, enemy.getName(), 30, 467);
+        font.draw(batch, enemy.getType().toString(), 130, 467);
+        font.draw(batch, Float.toString(enemy.getHp()), 200, 467);
+        font.draw(batch, "Armor: " + enemy.getDef(), 300, 467);
         font.draw(batch, "Level: " + level, 510, 467);
-        font.draw(batch, "Mana pots " + player.getM_pot(), 450, 20);
-        font.draw(batch, "Health pots " + player.getH_pot(), 550, 20);
-        font.draw(batch, Float.toString(player.getHp()), 350, 131);
-        font.draw(batch, Float.toString(player.getMp()), 350, 101);
-        font.draw(batch, "Attack: " + player.getAtk(), 300, 150);
+        font.draw(batch, "Mana pots " + MyGdxGame.player.getM_pot(), 450, 20);
+        font.draw(batch, "Health pots " + MyGdxGame.player.getH_pot(), 550, 20);
+        font.draw(batch, Float.toString(MyGdxGame.player.getHp()), 350, 131);
+        font.draw(batch, Float.toString(MyGdxGame.player.getMp()), 350, 101);
+        font.draw(batch, "Attack: " + MyGdxGame.player.getAtk(), 300, 150);
         //Damage numbers
-        if (enemy1.getHp() > 0) {
+        if (enemy.getHp() > 0) {
             if (freq2 > 0 || num2 < total_dmg) {
                 font2.setColor(0.2f, 0, 0, 1);
                 if (y < 450 && num2 < total_dmg) {
@@ -433,9 +424,9 @@ public class FightScreen implements Screen {
         checkPlayerDied();
 
         //
-        ene_hp_len = AnimationHandler.scroll(ene_hp_len, (enemy1.getHp() / enemy1.getMax_hp()) * 470, 700);
-        hp_len = AnimationHandler.scroll(hp_len, (player.getHp() / player.getMax_hp()) * 470, 300);
-        mana_len = AnimationHandler.scroll(mana_len, (player.getMp() / player.getMax_mp()) * 470, 300);
+        ene_hp_len = AnimationHandler.scroll(ene_hp_len, (enemy.getHp() / enemy.getMax_hp()) * 470, 700);
+        hp_len = AnimationHandler.scroll(hp_len, (MyGdxGame.player.getHp() / MyGdxGame.player.getMax_hp()) * 470, 300);
+        mana_len = AnimationHandler.scroll(mana_len, (MyGdxGame.player.getMp() / MyGdxGame.player.getMax_mp()) * 470, 300);
         freq -= Gdx.graphics.getDeltaTime();
         freq2 -= Gdx.graphics.getDeltaTime();
         if (num2 < total_dmg) {

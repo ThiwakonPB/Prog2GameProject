@@ -23,15 +23,10 @@ public class EventHandler {
             super(title, windowStyle);
         }
 
-
-
         /// Code under here will executed no matter which method used from above
         {
-
-
             Random rand = new Random();
             int n = rand.nextInt(2);
-
             String event_text = "yes";
             String button1_text = "Yes";
             String button2_text = "No";
@@ -42,11 +37,14 @@ public class EventHandler {
                     button("Drink it","0");
                     button("Throw it away","100");
                      break;
+
                 case 1:
                     text("You can across a suspicious looking chest");
                     button("Open it","1");
                     button("Ignore it","100");
                     break;
+
+
 //                case 2:
 //                    text("ssdda");
 //                    button("sd","2");

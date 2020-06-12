@@ -1,15 +1,24 @@
 package com.prog2game.characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 public class Enemy extends Character {
 
     //-Properties:
-    private String texture;
+    private String pathToTexture;
+    private Texture texture;
 
     //-Constructors:
-    public Enemy () { super(); } // Don't use this (DEBUG ONLY) .. TODO: Remove this constructor
-    public Enemy(String name, float max_hp, float max_atk, float max_def, float crit, float crit_chance, Type type, String texture) {
+    public Enemy () {
+        super();
+        this.texture = new Texture(Gdx.files.internal("enemies/image/enemy1.png"));
+    } // (FOR DEBUG ONLY) .. TODO: Remove this constructor
+
+    public Enemy(String name, float max_hp, float max_atk, float max_def, float crit, float crit_chance, Type type, String pathToTexture) {
         super(name, max_hp, max_atk, max_def, crit, crit_chance, type);
-        this.texture = texture;
+        this.pathToTexture = pathToTexture;
+        this.texture = new Texture(Gdx.files.internal(pathToTexture));
     }
 
     // This method will be moved later, and used to randomly generate enemies
@@ -29,12 +38,12 @@ public class Enemy extends Character {
 //    }
 
     //-Getters:
-    public String getTexture() {
+    public Texture getTexture() {
         return texture;
     }
 
     //-Setters:
-    public void setTexture(String texture) {
+    public void setTexture(Texture texture) {
         this.texture = texture;
     }
 

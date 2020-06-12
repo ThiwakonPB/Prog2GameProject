@@ -29,81 +29,42 @@ public class PreFightScreen implements Screen {
     private Texture texture, castle_background;
     private MyGdxGame parent;
     private Stage stage;
-    private float t_posY;
-    private float b_posY = -400;
-    private float alp = 0.3f;
-    private int max_hp =10;
-    private int max_mp = 10;
-    private int max_atk = 10;
-    private int points = 5;
-    private String select_class;
-    ArrayList<String> stats = new ArrayList<>();
+//    private float t_posY;
+//    private float b_posY = -400;
+//    private float alp = 0.3f;
+    private int max_hp;
+    private int max_mp;
+    private int max_atk;
+    private int points;
+//    private String select_class;
     private BitmapFont font;
 
     //-Constructors:
     public PreFightScreen(MyGdxGame myGdxGame) {
-        parent = myGdxGame;
+        parent = myGdxGame; // NOTE: Not sure if this is needed, since myGdxGame can be accessed statically
+
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("image-other/logo2.png"));
         castle_background = new Texture(Gdx.files.internal("backgrounds/prefight_background.jpg"));
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
-        create_file();
-        read();
-        max_hp = Integer.parseInt(stats.get(0));
-        max_mp = Integer.parseInt(stats.get(1));
-        max_atk = Integer.parseInt(stats.get(2));
-        points = Integer.parseInt(stats.get(3));
 
+        max_hp = MyGdxGame.gameData.getMaximum_HP();
+        max_mp = MyGdxGame.gameData.getMaximum_MP();
+        max_atk = MyGdxGame.gameData.getMaximum_Attack();
+        points = MyGdxGame.gameData.getPoints();
     }
 
-
-    public void create_file () {
-        try {
-            File myObj = new File("player_max_stats.txt");
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-                write();
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+    private void writeValuesToGameData() {
+        // Write the new user selected stats into the gameData class
+        MyGdxGame.gameData.setMaximum_HP(max_hp);
+        MyGdxGame.gameData.setMaximum_MP(max_mp);
+        MyGdxGame.gameData.setMaximum_Attack(max_atk);
+        MyGdxGame.gameData.setPoints(points);
+        MyGdxGame.saveCurrentGame();
     }
 
-
-
-    public void write() {
-        try {
-            FileWriter myWriter = new FileWriter("player_max_stats.txt");
-            myWriter.write(Integer.toString(max_hp) + " " + Integer.toString(max_mp) +" "+Integer.toString(max_atk) + " " + Integer.toString(points));
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
-
-
-    public void read() {
-        try {
-            File myObj = new File("player_max_stats.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNext()) {
-                stats.add(myReader.next());
-                System.out.println(stats.toString());
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
+    //-Methods:
     public int add_point(int stat){
         if (points > 0){
             stat += 1;
@@ -120,8 +81,6 @@ public class PreFightScreen implements Screen {
         return stat;
     }
 
-
-    //-Methods:
     @Override
     public void show() {
 
@@ -195,7 +154,7 @@ public class PreFightScreen implements Screen {
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                write();
+                writeValuesToGameData();
                 parent.changeScreen(Screens.FightScreen);
             }
         });
@@ -227,29 +186,25 @@ public class PreFightScreen implements Screen {
 
     }
 
-
     @Override
     public void render(float delta) {
         Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+
         stage.getBatch().begin();
-
         stage.getBatch().draw(castle_background, 0, 0, 750, 500);
-
-
         stage.getBatch().end();
 
         batch.begin();
-        font.draw(batch,"HP: " + Integer.toString(max_hp*10),500,450);
-        font.draw(batch,"MP: " + Integer.toString(max_mp),500,400);
-        font.draw(batch,"ATK: " + Integer.toString(max_atk),500,350);
-        font.draw(batch,"Points remaining: " + Integer.toString(points),300,450);
+        font.draw(batch,"HP: " + (max_hp),500,450);
+        font.draw(batch,"MP: " + max_mp,500,400);
+        font.draw(batch,"ATK: " + max_atk,500,350);
+        font.draw(batch,"Points remaining: " + points,300,450);
         batch.end();
+
         stage.draw();
-
-
     }
 
     @Override
@@ -258,16 +213,13 @@ public class PreFightScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     //Gets rid of stuff from here
     @Override
